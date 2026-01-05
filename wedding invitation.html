@@ -75,16 +75,29 @@
     </footer>
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=여기에_자바스크립트_키_입력"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
+
 <script>
-    var container = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(34.7603, 127.6622), // 여수시청 위경도 예시
-        level: 3
+    var mapContainer = document.getElementById('map');
+    // 아까 메모한 위도, 경도 숫자를 여기에 넣으세요
+    var hallLoc = new kakao.maps.LatLng(34.7603, 127.6622); 
+
+    var mapOption = { 
+        center: hallLoc, 
+        level: 3 
     };
-    var map = new kakao.maps.Map(container, options);
-    var marker = new kakao.maps.Marker({ position: map.getCenter() });
+
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    var marker = new kakao.maps.Marker({ 
+        position: hallLoc 
+    }); 
+
     marker.setMap(map);
+
+    // [추가 팁] 지도가 모바일에서 움직이지 않게 고정하고 싶다면 아래 코드를 추가하세요
+    // map.setDraggable(false); 
+    // map.setZoomable(false);
 </script>
 
 </body>
