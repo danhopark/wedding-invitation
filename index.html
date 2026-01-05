@@ -46,10 +46,12 @@
 <body>
 
 <div class="wrapper">
-    <div class="music-btn" onclick="toggleMusic()">
-        <span id="musicIcon">▶️</span>
-        <audio id="bgm" src="music/bgm.mp3" loop></audio>
-    </div>
+  	<div class="music-btn" onclick="toggleMusic()">
+    <span id="musicIcon">▶️</span>
+    <audio id="bgm" src="music/bgm.mp3" loop autoplay playsinline></audio>
+</div>
+	
+
 
     <header class="section">
         <p class="date">2026 . 05 . 23</p>
@@ -124,6 +126,32 @@
     function copyAccount(accNum) {
         navigator.clipboard.writeText(accNum).then(() => alert("계좌번호가 복사되었습니다."));
     }
+// 페이지 로드 시 자동 재생 시도 및 첫 터치 시 재생
+window.addEventListener('load', function() {
+    var audio = document.getElementById('bgm');
+    var icon = document.getElementById('musicIcon');
+
+    // 1. 브라우저가 허용할 경우 바로 재생 시도
+    var promise = audio.play();
+
+    if (promise !== undefined) {
+        promise.then(_ => {
+            // 자동 재생 성공 시 아이콘 변경
+            icon.innerText = "⏸️";
+        }).catch(error => {
+            // 자동 재생 차단 시: 하객이 화면을 터치하면 재생되도록 이벤트 등록
+            var playOnFirstInteraction = function() {
+                audio.play();
+                icon.innerText = "⏸️";
+                // 한 번 재생되면 이벤트 제거
+                document.removeEventListener('click', playOnFirstInteraction);
+                document.removeEventListener('touchstart', playOnFirstInteraction);
+            };
+            document.addEventListener('click', playOnFirstInteraction);
+            document.addEventListener('touchstart', playOnFirstInteraction);
+        });
+    }
+});
 </script>
 </body>
 </html>
