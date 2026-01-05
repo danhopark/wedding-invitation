@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <meta property="og:title" content="진성 & 수현의 결혼식에 초대합니다">
-    <meta property="og:description" content="2026년 5월 23일, 저희 두 사람 시작합니다.">
+    <meta property="og:description" content="2026년 5월 16일, 저희 두 사람 시작합니다.">
     <meta property="og:image" content="https://본인아이디.github.io/저장소명/images/photo1.jpg">
 
     <title>진성 & 수현 모바일 청첩장</title>
@@ -65,8 +65,8 @@
     </div>
 
     <header class="section">
-        <p class="date">2026 . 05 . 23</p>
-        <h1 class="names">박진성 & 이수현</h1>
+        <p class="date">2026 . 05 . 16</p>
+        <h1 class="names">박진성 & 정수현</h1>
         <p class="intro-text">함께 맞는 여덟 번째 봄,<br>저희 두 사람 결혼합니다.<br>따뜻한 마음으로 축복해 주세요.</p>
     </header>
 
@@ -91,7 +91,7 @@
         <h3>CALENDAR</h3>
         <div class="calendar-wrap">
             <div class="calendar-header">
-                2026. 05. 23 (토)
+                2026. 05. 16 (토)
             </div>
             <div class="calendar-grid" id="calendar-area">
                 </div>
@@ -121,7 +121,7 @@
         <div class="account-box">
             <button class="toggle-btn" onclick="toggleAccount('bride')"><span>신부측 계좌번호</span> <span id="bride-arrow">▼</span></button>
             <div id="bride-details" class="account-details">
-                <p>신부 이수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
+                <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
             </div>
         </div>
     </div>
@@ -146,7 +146,7 @@
     /* --- 2. 2026년 5월 달력 생성 함수 --- */
     function generateCalendar() {
         const calendarArea = document.getElementById('calendar-area');
-        const weddingDay = 23; // 예식일
+        const weddingDay = 16; // 예식일
         
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
         
@@ -155,7 +155,7 @@
         
         // 1일부터 31일까지 생성
         for (let day = 1; day <= 31; day++) {
-            // 23일(예식일)이면 d-day 클래스 추가, 일요일(나머지가 3인 날들)이면 sun 클래스 추가
+            // 16일(예식일)이면 d-day 클래스 추가, 일요일(나머지가 3인 날들)이면 sun 클래스 추가
             let className = 'day';
             if (day === weddingDay) className += ' d-day';
             else if ((day + 5) % 7 === 1) className += ' sun'; // 5월 기준 일요일 계산식
@@ -212,3 +212,4 @@
 </script>
 </body>
 </html>
+
