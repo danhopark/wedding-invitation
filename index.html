@@ -11,43 +11,51 @@
     <meta property="og:url" content="https://danhopark.github.io/wedding-invitation/">
 
     <title>진성 & 수현 모바일 청첩장</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
     <style>
-        /* --- 공통 스타일 & 애니메이션 --- */
-        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
-        
-        body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; }
+        /* --- 공통 스타일 --- */
+        body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
         .section { padding: 60px 20px; text-align: center; }
-        
-        /* 스크롤 시 나타나는 효과 클래스 */
+        h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
+        hr { border:none; border-top:1px solid #eee; margin:40px 20px; }
+
+        /* 스크롤 애니메이션 */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         
         /* 배경음악 버튼 */
         .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* 상단 헤더 (텍스트 우선) */
+        /* 상단 헤더 */
         header { padding: 100px 20px 60px; background: #fffaf7; }
         .date-top { font-size: 0.95rem; color: #999; letter-spacing: 4px; margin-bottom: 15px; }
         .names { font-size: 1.9rem; margin: 20px 0; font-weight: 300; letter-spacing: 2px; }
 
-        /* 메인 포스터 (스크롤 시 페이드 인) */
-        .main-poster { width: 100%; line-height: 0; overflow: hidden; }
+        /* 메인 포스터 */
+        .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
         /* 하트 그리드 갤러리 */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px; }
         .heart-box { aspect-ratio: 1 / 1; width: 100%; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
-        .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); }
+        .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); pointer-events: none; }
 
-        /* --- [추가] 이미지 팝업 모달 (줌 방지) --- */
-        #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); cursor: zoom-out; touch-action: none; /* 팝업 내 모든 터치 액션(줌 포함) 방지 */ }
-        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 95%; max-height: 85%; object-fit: contain; pointer-events: none; /* 이미지 직접 터치 방지 */ }
+        /* --- [변경] 이미지 팝업 모달 (스와이프 + 닫기 버튼) --- */
+        #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); }
+        /* 닫기 버튼 (X) 스타일 */
+        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: 300; cursor: pointer; z-index: 2002; line-height: 1; }
+        /* 팝업 내 스와이퍼 스타일 */
+        .modalSwiper { width: 100%; height: 100%; }
+        .modalSwiper .swiper-slide { display: flex; align-items: center; justify-content: center; }
+        /* 줌 방지 핵심: 이미지 자체의 포인터 이벤트 차단 */
+        .modalSwiper .swiper-slide img { max-width: 100%; max-height: 90%; object-fit: contain; pointer-events: none; user-select: none; }
+        /* 좌우 화살표 색상 */
+        .swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.5); }
 
-        /* --- [추가] 달력 & D-day --- */
+        /* 달력 & D-day */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 25px 15px; border-radius: 15px; }
         .calendar-header { font-size: 1.1rem; margin-bottom: 20px; color: #8a7b6a; font-weight: bold; }
         .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
@@ -57,20 +65,20 @@
         .sun { color: #e74c3c; }
         .d-day-circle { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
-        /* 지도 & 계좌번호 (기존 스타일 유지) */
-        #map { width: 100%; height: 300px; margin: 20px 0; border-radius: 8px; }
+        /* 지도 & 계좌번호 */
+        #map { width: 100%; height: 300px; margin: 20px 0; border-radius: 8px; border:1px solid #eee; }
         .map-btns { display: flex; gap: 8px; justify-content: center; }
         .btn-map { padding: 10px 15px; background: #fff; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #555; font-size: 0.8rem; flex: 1; max-width: 120px; }
         .account-box { margin-bottom: 12px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
         .toggle-btn { width: 100%; padding: 15px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; }
         .account-details { display: none; padding: 20px; background: #fafafa; text-align: left; font-size: 0.85rem; line-height: 2; border-top: 1px solid #eee; }
-        .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; }
+        .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; color:#555; }
         footer { padding: 60px 20px; font-size: 0.8rem; color: #bbb; background: #fdfaf7; text-align: center; }
     </style>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute;">
+<svg width="0" height="0" style="position:absolute; pointer-events:none;">
     <defs>
         <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
             <path d="M0.5,0.95 C0.5,0.95 0.05,0.65 0.05,0.35 C0.05,0.15 0.2,0.05 0.35,0.05 C0.45,0.05 0.5,0.15 0.5,0.15 C0.5,0.15 0.55,0.05 0.65,0.05 C0.8,0.05 0.95,0.15 0.95,0.35 C0.95,0.65 0.5,0.95 0.5,0.95 Z" />
@@ -78,8 +86,11 @@
     </defs>
 </svg>
 
-<div id="imageModal" onclick="closeModal()">
-    <img id="modalImg" class="modal-content">
+<div id="imageModal">
+    <span class="close-btn" onclick="closeModal()">&times;</span> <div class="swiper modalSwiper">
+        <div class="swiper-wrapper" id="modalWrapper">
+            </div>
+        </div>
 </div>
 
 <div class="wrapper">
@@ -98,17 +109,17 @@
         <img src="images/poster.jpg" alt="메인 포스터">
     </div>
 
-    <hr style="border:none; border-top:1px solid #eee; margin:40px 20px;">
+    <hr>
 
     <div class="section reveal">
         <h3>GALLERY</h3>
-        <div class="gallery-grid">
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo1.jpg"></div>
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo2.jpg"></div>
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo3.jpg"></div>
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo4.jpg"></div>
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo1.jpg"></div>
-            <div class="heart-box" onclick="openModal(this)"><img src="images/photo2.jpg"></div>
+        <div class="gallery-grid" id="originalGallery">
+            <div class="heart-box" onclick="openModal(0)"><img src="images/photo1.jpg"></div>
+            <div class="heart-box" onclick="openModal(1)"><img src="images/photo2.jpg"></div>
+            <div class="heart-box" onclick="openModal(2)"><img src="images/photo3.jpg"></div>
+            <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
+            <div class="heart-box" onclick="openModal(4)"><img src="images/photo1.jpg"></div>
+            <div class="heart-box" onclick="openModal(5)"><img src="images/photo2.jpg"></div>
         </div>
     </div>
 
@@ -151,40 +162,61 @@
     <footer><p>© 2026 Jinsung & Suhyeon</p></footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
 <script>
-    /* 1. 스크롤 애니메이션 (Reveal) */
+    /* 1. 스크롤 애니메이션 */
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 100;
-            if (elementTop < windowHeight - elementVisible) {
-                reveals[i].classList.add("active");
-            }
+            if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
         }
     }
-    window.addEventListener("scroll", reveal);
-    window.addEventListener("load", reveal); // 첫 로딩 시 실행
+    window.addEventListener("scroll", reveal); window.addEventListener("load", reveal);
 
-    /* 2. 이미지 팝업 (줌 차단) */
-    function openModal(el) {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImg");
-        modal.style.display = "block";
-        modalImg.src = el.querySelector("img").src;
-        document.body.style.overflow = "hidden"; // 배경 스크롤 방지
+    /* 2. [변경] 이미지 팝업 (스와이프 기능 탑재) */
+    var modalSwiper; // 팝업용 스와이퍼 변수
+    
+    // 페이지 로드 시 팝업 안에 이미지 미리 세팅
+    window.addEventListener('load', function() {
+        const modalWrapper = document.getElementById('modalWrapper');
+        const originalImages = document.querySelectorAll('#originalGallery .heart-box img');
+        
+        originalImages.forEach(img => {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            const newImg = document.createElement('img');
+            newImg.src = img.src;
+            slide.appendChild(newImg);
+            modalWrapper.appendChild(slide);
+        });
+
+        // 팝업 스와이퍼 초기화
+        modalSwiper = new Swiper(".modalSwiper", {
+            spaceBetween: 20,
+            // navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev", }, // 필요시 주석 해제
+        });
+    });
+
+    // 팝업 열기 (클릭한 사진 순서로 이동)
+    function openModal(index) {
+        document.getElementById("imageModal").style.display = "block";
+        document.body.style.overflow = "hidden"; // 배경 스크롤 잠금
+        if (modalSwiper) modalSwiper.slideTo(index, 0); // 클릭한 사진 위치로 바로 이동
     }
+    // 팝업 닫기
     function closeModal() {
         document.getElementById("imageModal").style.display = "none";
-        document.body.style.overflow = "auto";
+        document.body.style.overflow = "auto"; // 배경 스크롤 풀기
     }
 
-    /* 3. D-day 계산 및 달력 */
+
+    /* 3. D-day 및 달력 */
     function initCalendar() {
-        const weddingDate = new Date("2026-05-16");
-        const today = new Date();
+        const weddingDate = new Date("2026-05-16"); const today = new Date();
+        today.setHours(0,0,0,0); weddingDate.setHours(0,0,0,0); // 시간 제외하고 날짜만 비교
         const diff = weddingDate - today;
         const dDay = Math.ceil(diff / (1000 * 60 * 60 * 24));
         document.getElementById('d-day-count').innerText = dDay > 0 ? "D-" + dDay : (dDay === 0 ? "D-Day" : "D+" + Math.abs(dDay));
@@ -193,37 +225,30 @@
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
         for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
         for (let d = 1; d <= 31; d++) {
-            let cls = 'day';
-            if (d === 16) cls += ' d-day-circle';
-            else if ((d + 5) % 7 === 1) cls += ' sun';
+            let cls = 'day'; if (d === 16) cls += ' d-day-circle'; else if ((d + 5) % 7 === 1) cls += ' sun';
             html += `<div class="${cls}">${d}</div>`;
         }
         area.innerHTML = html;
     }
     initCalendar();
 
-    /* 4. 지도 및 기타 (기존 로직) */
+    /* 4. 지도, 음악, 계좌번호 (기존 유지) */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
     new kakao.maps.Marker({ position: hallLoc }).setMap(map);
     map.setDraggable(false); map.setZoomable(false);
 
-    const bgm = document.getElementById('bgm');
-    const mIcon = document.getElementById('musicIcon');
+    const bgm = document.getElementById('bgm'); const mIcon = document.getElementById('musicIcon');
     window.addEventListener('load', () => {
         bgm.play().then(() => mIcon.innerText = "⏸️").catch(() => {
-            const playOnInteraction = () => { bgm.play(); mIcon.innerText = "⏸️"; document.removeEventListener('click', playOnInteraction); };
-            document.addEventListener('click', playOnInteraction);
-            document.addEventListener('touchstart', playOnInteraction);
+            const startBgm = () => { bgm.play(); mIcon.innerText = "⏸️"; document.removeEventListener('click', startBgm); };
+            document.addEventListener('click', startBgm); document.addEventListener('touchstart', startBgm);
         });
     });
     function toggleMusic() { if (bgm.paused) { bgm.play(); mIcon.innerText = "⏸️"; } else { bgm.pause(); mIcon.innerText = "▶️"; } }
     function toggleAccount(t) {
-        const d = document.getElementById(t + '-details');
-        const a = document.getElementById(t + '-arrow');
-        const isShow = d.style.display === "block";
-        d.style.display = isShow ? "none" : "block";
-        a.innerText = isShow ? "▼" : "▲";
+        const d = document.getElementById(t + '-details'); const a = document.getElementById(t + '-arrow');
+        const isShow = d.style.display === "block"; d.style.display = isShow ? "none" : "block"; a.innerText = isShow ? "▼" : "▲";
     }
     function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
 </script>
