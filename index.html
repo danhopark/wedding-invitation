@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
+    <meta property="og:type" content="website">
     <meta property="og:title" content="진성 ❤️ 수현의 결혼식에 초대합니다">
-    <meta property="og:description" content="2026년 5월 23일(토), 저희 두 사람 시작합니다.">
-    <meta property="og:image" content="https://danhopark.github.io/wedding-invitatio/images/poster.jpg">
+    <meta property="og:description" content="2026년 5월 16일(토), 저희 두 사람 시작합니다.">
+    <meta property="og:image" content="https://danhopark.github.io/wedding-invitation/images/poster.jpg">
     <meta property="og:url" content="https://danhopark.github.io/wedding-invitation/">
 
     <title>진성 & 수현 모바일 청첩장</title>
@@ -26,22 +27,29 @@
         .fade-in { animation: fadeInUp 1.5s ease-out; }
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         
-        /* --- 배경음악 버튼 --- */
+        /* 배경음악 버튼 */
         .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        /* --- 상단 포스터 & 헤더 --- */
+        /* 상단 포스터 & 헤더 */
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
         header { padding: 60px 20px; background: #fffaf7; }
         .date { font-size: 0.9rem; color: #999; letter-spacing: 4px; }
         .names { font-size: 1.8rem; margin: 20px 0; font-weight: 300; }
 
-        /* --- 갤러리 슬라이더 --- */
+        /* 갤러리 슬라이더 */
         .swiper { width: 100%; padding-bottom: 40px; }
-        .swiper-slide img { display: block; width: 100%; height: 450px; object-fit: cover; border-radius: 4px; }
+        .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 450px; /* 높이는 유지 */
+        object-fit: contain; /* 사진 전체가 다 보이게 설정 */
+        border-radius: 4px;
+        background-color: #f4f4f4; /* 사진 주변 여백을 회색으로 채움 */
+        }
         .swiper-pagination-bullet-active { background: #8a7b6a; }
 
-        /* --- 달력 --- */
+        /* 달력 스타일 */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 20px; border-radius: 10px; }
         .calendar-header { font-size: 1.1rem; margin-bottom: 20px; color: #8a7b6a; font-weight: bold; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
@@ -50,18 +58,18 @@
         .sun { color: #e74c3c; }
         .d-day { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
-        /* --- 지도 & 길찾기 --- */
+        /* 지도 & 길찾기 */
         #map { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; }
         .map-btns { display: flex; gap: 8px; justify-content: center; }
         .btn-map { padding: 10px 15px; background: #fff; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #555; font-size: 0.8rem; flex: 1; max-width: 120px; }
 
-        /* --- 계좌번호 토글 --- */
+        /* 계좌번호 토글 */
         .account-box { margin-bottom: 12px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
         .toggle-btn { width: 100%; padding: 15px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; }
         .account-details { display: none; padding: 20px; background: #fafafa; text-align: left; font-size: 0.85rem; line-height: 2; border-top: 1px solid #eee; }
         .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; color: #555; }
 
-        footer { padding: 60px 20px; font-size: 0.8rem; color: #bbb; background: #fdfaf7; }
+        footer { padding: 60px 20px; font-size: 0.8rem; color: #bbb; background: #fdfaf7; text-align: center; }
     </style>
 </head>
 <body>
@@ -82,6 +90,8 @@
         <p style="line-height:1.8; color:#666;">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
     </header>
 
+    <hr style="border:none; border-top:1px solid #eee; margin:0 20px;">
+
     <div class="section">
         <h3>GALLERY</h3>
         <div class="swiper mySwiper">
@@ -95,10 +105,12 @@
         </div>
     </div>
 
+    <hr style="border:none; border-top:1px solid #eee; margin:0 20px;">
+
     <div class="section">
         <h3>CALENDAR</h3>
         <div class="calendar-wrap">
-            <div class="calendar-header">2026. 05. 23. SAT</div>
+            <div class="calendar-header">2026. 05. 16. SAT</div>
             <div class="calendar-grid" id="calendar-area"></div>
         </div>
     </div>
@@ -141,17 +153,18 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
 
 <script>
-    /* 1. 갤러리 슬라이더 */
+    /* 갤러리 슬라이더 */
     new Swiper(".mySwiper", { pagination: { el: ".swiper-pagination", clickable: true }, loop: true });
 
-    /* 2. 달력 생성 */
+    /* 달력 생성 로직 (16일 강조) */
     function makeCalendar() {
         const area = document.getElementById('calendar-area');
+        const weddingDay = 16; // 예식일 수정
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
-        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; // 5월 시작 공백
+        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
         for (let d = 1; d <= 31; d++) {
             let cls = 'day';
-            if (d === 23) cls += ' d-day';
+            if (d === weddingDay) cls += ' d-day';
             else if ((d + 5) % 7 === 1) cls += ' sun';
             html += `<div class="${cls}">${d}</div>`;
         }
@@ -159,13 +172,13 @@
     }
     makeCalendar();
 
-    /* 3. 지도 설정 */
+    /* 지도 설정 */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
     new kakao.maps.Marker({ position: hallLoc }).setMap(map);
     map.setDraggable(false); map.setZoomable(false);
 
-    /* 4. 음악 자동 재생 로직 */
+    /* 음악 자동 재생 및 토글 */
     const bgm = document.getElementById('bgm');
     const mIcon = document.getElementById('musicIcon');
     function playBgm() { bgm.play(); mIcon.innerText = "⏸️"; }
@@ -178,7 +191,7 @@
     });
     function toggleMusic() { if (bgm.paused) playBgm(); else { bgm.pause(); mIcon.innerText = "▶️"; } }
 
-    /* 5. 계좌번호 및 복사 */
+    /* 계좌번호 토글 및 복사 */
     function toggleAccount(t) {
         const d = document.getElementById(t + '-details');
         const a = document.getElementById(t + '-arrow');
