@@ -11,18 +11,12 @@
     <meta property="og:url" content="https://danhopark.github.io/wedding-invitation/">
 
     <title>진성 & 수현 모바일 청첩장</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
     <style>
         /* --- 공통 스타일 & 애니메이션 --- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translate3d(0, 30px, 0); }
-            to { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
-
+        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 30px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
         body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; }
-        .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+        .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
         .section { padding: 60px 20px; text-align: center; }
         .fade-in { animation: fadeInUp 1.5s ease-out; }
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
@@ -37,17 +31,25 @@
         .date { font-size: 0.9rem; color: #999; letter-spacing: 4px; }
         .names { font-size: 1.8rem; margin: 20px 0; font-weight: 300; }
 
-        /* 갤러리 슬라이더 */
-        .swiper { width: 100%; padding-bottom: 40px; }
-        .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 450px; /* 높이는 유지 */
-        object-fit: contain; /* 사진 전체가 다 보이게 설정 */
-        border-radius: 4px;
-        background-color: #f4f4f4; /* 사진 주변 여백을 회색으로 채움 */
+        /* --- [변경] 하트 그리드 갤러리 스타일 --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
+            gap: 15px; /* 사진 사이 간격 */
+            padding: 0 10px;
         }
-        .swiper-pagination-bullet-active { background: #8a7b6a; }
+        .heart-box {
+            aspect-ratio: 1 / 1; /* 정사각형 비율 강제 */
+            width: 100%;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); /* 하트 그림자 효과 */
+            transition: transform 0.3s ease;
+        }
+        .heart-box:hover { transform: scale(1.05); /* 마우스 올리면 살짝 커짐 */ }
+        .heart-box img {
+            width: 100%; height: 100%;
+            object-fit: cover; /* 정사각형 안에 꽉 채우기 */
+            clip-path: url(#heartClip); /* ▼ 하단에 정의한 SVG 하트 모양으로 자르기 */
+        }
 
         /* 달력 스타일 */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 20px; border-radius: 10px; }
@@ -74,6 +76,14 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute; pointer-events: none;">
+    <defs>
+        <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+            <path d="M0.5,0.95 C0.5,0.95 0.05,0.65 0.05,0.35 C0.05,0.15 0.2,0.05 0.35,0.05 C0.45,0.05 0.5,0.15 0.5,0.15 C0.5,0.15 0.55,0.05 0.65,0.05 C0.8,0.05 0.95,0.15 0.95,0.35 C0.95,0.65 0.5,0.95 0.5,0.95 Z" />
+        </clipPath>
+    </defs>
+</svg>
+
 <div class="wrapper">
     <div class="music-btn" onclick="toggleMusic()">
         <span id="musicIcon">▶️</span>
@@ -94,15 +104,15 @@
 
     <div class="section">
         <h3>GALLERY</h3>
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="images/photo1.jpg"></div>
-                <div class="swiper-slide"><img src="images/photo2.jpg"></div>
-                <div class="swiper-slide"><img src="images/photo3.jpg"></div>
-                <div class="swiper-slide"><img src="images/photo4.jpg"></div>
-            </div>
-            <div class="swiper-pagination"></div>
+        <div class="gallery-grid">
+            <div class="heart-box"><img src="images/photo1.jpg" alt="사진1"></div>
+            <div class="heart-box"><img src="images/photo2.jpg" alt="사진2"></div>
+            <div class="heart-box"><img src="images/photo3.jpg" alt="사진3"></div>
+            <div class="heart-box"><img src="images/photo4.jpg" alt="사진4"></div>
+            <div class="heart-box"><img src="images/photo1.jpg" alt="사진5"></div>
+            <div class="heart-box"><img src="images/photo2.jpg" alt="사진6"></div>
         </div>
+        <p style="font-size:0.8rem; color:#aaa; margin-top:20px;">사진을 터치하면 살짝 커집니다.</p>
     </div>
 
     <hr style="border:none; border-top:1px solid #eee; margin:0 20px;">
@@ -149,17 +159,15 @@
     </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
 
 <script>
-    /* 갤러리 슬라이더 */
-    new Swiper(".mySwiper", { pagination: { el: ".swiper-pagination", clickable: true }, loop: true });
+    /* [중요] 갤러리 슬라이더 관련 스크립트 제거됨 */
 
     /* 달력 생성 로직 (16일 강조) */
     function makeCalendar() {
         const area = document.getElementById('calendar-area');
-        const weddingDay = 16; // 예식일 수정
+        const weddingDay = 16; 
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
         for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
         for (let d = 1; d <= 31; d++) {
