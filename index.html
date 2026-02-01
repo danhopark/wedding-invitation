@@ -14,69 +14,63 @@
     
     <style>
         /* --- 공통 스타일 & 애니메이션 --- */
-        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 30px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+        
         body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; }
         .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
         .section { padding: 60px 20px; text-align: center; }
-        .fade-in { animation: fadeInUp 1.5s ease-out; }
+        
+        /* 스크롤 시 나타나는 효과 클래스 */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         
         /* 배경음악 버튼 */
-        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* 상단 포스터 & 헤더 */
-        .main-poster { width: 100%; line-height: 0; }
+        /* 상단 헤더 (텍스트 우선) */
+        header { padding: 100px 20px 60px; background: #fffaf7; }
+        .date-top { font-size: 0.95rem; color: #999; letter-spacing: 4px; margin-bottom: 15px; }
+        .names { font-size: 1.9rem; margin: 20px 0; font-weight: 300; letter-spacing: 2px; }
+
+        /* 메인 포스터 (스크롤 시 페이드 인) */
+        .main-poster { width: 100%; line-height: 0; overflow: hidden; }
         .main-poster img { width: 100%; height: auto; display: block; }
-        header { padding: 60px 20px; background: #fffaf7; }
-        .date { font-size: 0.9rem; color: #999; letter-spacing: 4px; }
-        .names { font-size: 1.8rem; margin: 20px 0; font-weight: 300; }
 
-        /* --- [변경] 하트 그리드 갤러리 스타일 --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
-            gap: 15px; /* 사진 사이 간격 */
-            padding: 0 10px;
-        }
-        .heart-box {
-            aspect-ratio: 1 / 1; /* 정사각형 비율 강제 */
-            width: 100%;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); /* 하트 그림자 효과 */
-            transition: transform 0.3s ease;
-        }
-        .heart-box:hover { transform: scale(1.05); /* 마우스 올리면 살짝 커짐 */ }
-        .heart-box img {
-            width: 100%; height: 100%;
-            object-fit: cover; /* 정사각형 안에 꽉 채우기 */
-            clip-path: url(#heartClip); /* ▼ 하단에 정의한 SVG 하트 모양으로 자르기 */
-        }
+        /* 하트 그리드 갤러리 */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px; }
+        .heart-box { aspect-ratio: 1 / 1; width: 100%; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
+        .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); }
 
-        /* 달력 스타일 */
-        .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 20px; border-radius: 10px; }
+        /* --- [추가] 이미지 팝업 모달 (줌 방지) --- */
+        #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); cursor: zoom-out; touch-action: none; /* 팝업 내 모든 터치 액션(줌 포함) 방지 */ }
+        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 95%; max-height: 85%; object-fit: contain; pointer-events: none; /* 이미지 직접 터치 방지 */ }
+
+        /* --- [추가] 달력 & D-day --- */
+        .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 25px 15px; border-radius: 15px; }
         .calendar-header { font-size: 1.1rem; margin-bottom: 20px; color: #8a7b6a; font-weight: bold; }
+        .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
         .weekday { font-weight: bold; color: #bbb; padding-bottom: 10px; }
         .day { padding: 8px 0; }
         .sun { color: #e74c3c; }
-        .d-day { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
+        .d-day-circle { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
-        /* 지도 & 길찾기 */
-        #map { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; }
+        /* 지도 & 계좌번호 (기존 스타일 유지) */
+        #map { width: 100%; height: 300px; margin: 20px 0; border-radius: 8px; }
         .map-btns { display: flex; gap: 8px; justify-content: center; }
         .btn-map { padding: 10px 15px; background: #fff; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #555; font-size: 0.8rem; flex: 1; max-width: 120px; }
-
-        /* 계좌번호 토글 */
         .account-box { margin-bottom: 12px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
         .toggle-btn { width: 100%; padding: 15px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; }
         .account-details { display: none; padding: 20px; background: #fafafa; text-align: left; font-size: 0.85rem; line-height: 2; border-top: 1px solid #eee; }
-        .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; color: #555; }
-
+        .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; }
         footer { padding: 60px 20px; font-size: 0.8rem; color: #bbb; background: #fdfaf7; text-align: center; }
     </style>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute; pointer-events: none;">
+<svg width="0" height="0" style="position:absolute;">
     <defs>
         <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
             <path d="M0.5,0.95 C0.5,0.95 0.05,0.65 0.05,0.35 C0.05,0.15 0.2,0.05 0.35,0.05 C0.45,0.05 0.5,0.15 0.5,0.15 C0.5,0.15 0.55,0.05 0.65,0.05 C0.8,0.05 0.95,0.15 0.95,0.35 C0.95,0.65 0.5,0.95 0.5,0.95 Z" />
@@ -84,51 +78,53 @@
     </defs>
 </svg>
 
+<div id="imageModal" onclick="closeModal()">
+    <img id="modalImg" class="modal-content">
+</div>
+
 <div class="wrapper">
     <div class="music-btn" onclick="toggleMusic()">
         <span id="musicIcon">▶️</span>
         <audio id="bgm" src="music/bgm.mp3" loop autoplay playsinline></audio>
     </div>
 
-    <div class="main-poster fade-in">
+    <header class="section">
+        <p class="date-top">2026 . 05 . 16</p>
+        <h1 class="names">박진성 & 정수현</h1>
+        <p style="line-height:1.8; color:#666; font-size: 0.95rem;">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
+    </header>
+
+    <div class="main-poster reveal">
         <img src="images/poster.jpg" alt="메인 포스터">
     </div>
 
-    <header class="section">
-        <p class="date">2026 . 05 . 16</p>
-        <h1 class="names">박진성 & 정수현</h1>
-        <p style="line-height:1.8; color:#666;">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
-    </header>
+    <hr style="border:none; border-top:1px solid #eee; margin:40px 20px;">
 
-    <hr style="border:none; border-top:1px solid #eee; margin:0 20px;">
-
-    <div class="section">
+    <div class="section reveal">
         <h3>GALLERY</h3>
         <div class="gallery-grid">
-            <div class="heart-box"><img src="images/photo1.jpg" alt="사진1"></div>
-            <div class="heart-box"><img src="images/photo2.jpg" alt="사진2"></div>
-            <div class="heart-box"><img src="images/photo3.jpg" alt="사진3"></div>
-            <div class="heart-box"><img src="images/photo4.jpg" alt="사진4"></div>
-            <div class="heart-box"><img src="images/photo1.jpg" alt="사진5"></div>
-            <div class="heart-box"><img src="images/photo2.jpg" alt="사진6"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo1.jpg"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo2.jpg"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo3.jpg"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo4.jpg"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo1.jpg"></div>
+            <div class="heart-box" onclick="openModal(this)"><img src="images/photo2.jpg"></div>
         </div>
-        <p style="font-size:0.8rem; color:#aaa; margin-top:20px;">사진을 터치하면 살짝 커집니다.</p>
     </div>
 
-    <hr style="border:none; border-top:1px solid #eee; margin:0 20px;">
-
-    <div class="section">
+    <div class="section reveal">
         <h3>CALENDAR</h3>
         <div class="calendar-wrap">
+            <div id="d-day-count" class="d-day-tag">D-Day</div>
             <div class="calendar-header">2026. 05. 16. SAT</div>
             <div class="calendar-grid" id="calendar-area"></div>
         </div>
     </div>
 
-    <div class="section">
+    <div class="section reveal">
         <h3>LOCATION</h3>
         <p><strong>여수 마리나 웨딩홀</strong></p>
-        <p style="font-size: 0.85rem; color: #888; margin-bottom:15px;">전남 여수시 선소로 25</p>
+        <p style="font-size: 0.85rem; color: #888;">전남 여수시 선소로 25</p>
         <div id="map"></div>
         <div class="map-btns">
             <a href="https://map.kakao.com/link/to/여수마리나웨딩홀,34.756854435255,127.66424876634" class="btn-map" target="_blank">카카오맵</a>
@@ -136,70 +132,92 @@
         </div>
     </div>
 
-    <div class="section" style="background: #fdfaf7;">
+    <div class="section reveal" style="background: #fdfaf7;">
         <h3>마음 전하실 곳</h3>
         <div class="account-box">
             <button class="toggle-btn" onclick="toggleAccount('groom')"><span>신랑측 계좌번호</span> <span id="groom-arrow">▼</span></button>
             <div id="groom-details" class="account-details">
-                <p>신랑 박진성 <br> <strong>국민 123-456-7890</strong> 
-                <button class="copy-btn" onclick="copyAccount('123-456-7890')">복사</button></p>
+                <p>신랑 박진성 <br> <strong>국민 123-456-7890</strong> <button class="copy-btn" onclick="copyAccount('123-456-7890')">복사</button></p>
             </div>
         </div>
         <div class="account-box">
             <button class="toggle-btn" onclick="toggleAccount('bride')"><span>신부측 계좌번호</span> <span id="bride-arrow">▼</span></button>
             <div id="bride-details" class="account-details">
-                <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> 
-                <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
+                <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 Jinsung & Suhyeon</p>
-    </footer>
+    <footer><p>© 2026 Jinsung & Suhyeon</p></footer>
 </div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
-
 <script>
-    /* [중요] 갤러리 슬라이더 관련 스크립트 제거됨 */
+    /* 1. 스크롤 애니메이션 (Reveal) */
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    window.addEventListener("load", reveal); // 첫 로딩 시 실행
 
-    /* 달력 생성 로직 (16일 강조) */
-    function makeCalendar() {
+    /* 2. 이미지 팝업 (줌 차단) */
+    function openModal(el) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        modal.style.display = "block";
+        modalImg.src = el.querySelector("img").src;
+        document.body.style.overflow = "hidden"; // 배경 스크롤 방지
+    }
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    /* 3. D-day 계산 및 달력 */
+    function initCalendar() {
+        const weddingDate = new Date("2026-05-16");
+        const today = new Date();
+        const diff = weddingDate - today;
+        const dDay = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('d-day-count').innerText = dDay > 0 ? "D-" + dDay : (dDay === 0 ? "D-Day" : "D+" + Math.abs(dDay));
+
         const area = document.getElementById('calendar-area');
-        const weddingDay = 16; 
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
         for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
         for (let d = 1; d <= 31; d++) {
             let cls = 'day';
-            if (d === weddingDay) cls += ' d-day';
+            if (d === 16) cls += ' d-day-circle';
             else if ((d + 5) % 7 === 1) cls += ' sun';
             html += `<div class="${cls}">${d}</div>`;
         }
         area.innerHTML = html;
     }
-    makeCalendar();
+    initCalendar();
 
-    /* 지도 설정 */
+    /* 4. 지도 및 기타 (기존 로직) */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
     new kakao.maps.Marker({ position: hallLoc }).setMap(map);
     map.setDraggable(false); map.setZoomable(false);
 
-    /* 음악 자동 재생 및 토글 */
     const bgm = document.getElementById('bgm');
     const mIcon = document.getElementById('musicIcon');
-    function playBgm() { bgm.play(); mIcon.innerText = "⏸️"; }
     window.addEventListener('load', () => {
         bgm.play().then(() => mIcon.innerText = "⏸️").catch(() => {
-            const startBgm = () => { playBgm(); document.removeEventListener('click', startBgm); };
-            document.addEventListener('click', startBgm);
-            document.addEventListener('touchstart', startBgm);
+            const playOnInteraction = () => { bgm.play(); mIcon.innerText = "⏸️"; document.removeEventListener('click', playOnInteraction); };
+            document.addEventListener('click', playOnInteraction);
+            document.addEventListener('touchstart', playOnInteraction);
         });
     });
-    function toggleMusic() { if (bgm.paused) playBgm(); else { bgm.pause(); mIcon.innerText = "▶️"; } }
-
-    /* 계좌번호 토글 및 복사 */
+    function toggleMusic() { if (bgm.paused) { bgm.play(); mIcon.innerText = "⏸️"; } else { bgm.pause(); mIcon.innerText = "▶️"; } }
     function toggleAccount(t) {
         const d = document.getElementById(t + '-details');
         const a = document.getElementById(t + '-arrow');
@@ -207,9 +225,7 @@
         d.style.display = isShow ? "none" : "block";
         a.innerText = isShow ? "▼" : "▲";
     }
-    function copyAccount(num) {
-        navigator.clipboard.writeText(num).then(() => alert("계좌번호 " + num + " 가 복사되었습니다."));
-    }
+    function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
 </script>
 </body>
 </html>
