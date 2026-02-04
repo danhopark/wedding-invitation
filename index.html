@@ -241,7 +241,7 @@
     /* [중요] RSVP 전송 오류 해결 가이드 */
     function submitRSVP() {
         // 1. 주소 끝이 /formResponse 인지 꼭 확인하세요!
-        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/preview/formResponse"; 
+        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
         
         const name = document.getElementById("rsvp-name").value;
         const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
@@ -250,11 +250,11 @@
 
         const formData = new FormData();
         // 2. [검사]로 찾은 entry.xxxx 숫자가 정확한지 다시 확인하세요!
-        formData.append("entry.424447328", name); 
-        formData.append("entry.810964646", attendance); 
+        formData.append("entry.29244752", name); 
+        formData.append("entry.1798204085", attendance); 
         if (attendance !== "불참") {
-            formData.append("entry.402763776", document.getElementById("rsvp-count").value);
-            formData.append("entry.1519935907", document.getElementById("rsvp-meal").value);
+            formData.append("entry.1424019092", document.getElementById("rsvp-count").value);
+            formData.append("entry.515197960", document.getElementById("rsvp-meal").value);
         }
 
         fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
