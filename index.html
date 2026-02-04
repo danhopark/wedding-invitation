@@ -15,49 +15,51 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
     <style>
-        /* --- 공통 스타일 & 애니메이션 --- */
+        /* --- 공통 스타일 --- */
         body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
         .section { padding: 80px 20px; text-align: center; }
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         hr { border:none; border-top:1px solid #eee; margin:0 20px; }
 
-        /* 스크롤 시 부드럽게 나타나는 효과 */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
-        /* 배경음악 버튼 */
-        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* 1. 상단 텍스트 헤더 */
         header { padding: 120px 20px 80px; background: #fffaf7; text-align: center; }
         .date-top { font-size: 1rem; color: #999; letter-spacing: 5px; margin-bottom: 20px; }
         .names { font-size: 2rem; margin: 25px 0; font-weight: 300; letter-spacing: 3px; }
-        .intro-p { line-height: 2; color: #666; font-size: 0.95rem; }
 
-        /* 2. 메인 포스터 (스크롤 효과) */
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
-        /* 3. 하트 그리드 갤러리 */
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px; }
-        .heart-box { aspect-ratio: 1 / 1; width: 100%; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
+        /* [수정] 갤러리 중앙 정렬 강화 */
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+            padding: 0 15px;
+            justify-items: center; /* 내부 아이템 중앙 정렬 */
+            align-items: center;
+        }
+        .heart-box { aspect-ratio: 1 / 1; width: 100%; max-width: 120px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
         .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); pointer-events: none; }
 
-        /* 이미지 팝업 모달 (스와이프 + 줌 차단) */
+        /* 팝업 모달 */
         #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); }
         .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2002; }
         .modalSwiper { width: 100%; height: 100%; }
         .modalSwiper .swiper-slide img { max-width: 100%; max-height: 90%; object-fit: contain; pointer-events: none; }
         .swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.7); transform: scale(0.6); }
 
-        /* 4. RSVP (참석 여부 직접 입력) */
+        /* RSVP 폼 */
         .rsvp-form { text-align: left; max-width: 350px; margin: 0 auto; background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-submit { width: 100%; padding: 16px; background: #8a7b6a; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
         .rsvp-form label { font-size: 0.85rem; color: #8a7b6a; font-weight: bold; }
-        .rsvp-form input[type="text"], .rsvp-form select { width: 100%; padding: 12px; margin: 8px 0 18px; border: 1px solid #eee; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem; }
-        .btn-submit { width: 100%; padding: 16px; background: #8a7b6a; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .rsvp-form input[type="text"], .rsvp-form select { width: 100%; padding: 12px; margin: 8px 0 18px; border: 1px solid #eee; border-radius: 6px; box-sizing: border-box; }
 
-        /* 5. 달력 & D-day */
+        /* 달력 & 지도 */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 30px 15px; border-radius: 15px; }
         .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
@@ -66,7 +68,6 @@
         .sun { color: #e74c3c; }
         .d-day-circle { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
-        /* 6. 지도 및 계좌번호 */
         #map { width: 100%; height: 300px; margin: 25px 0; border-radius: 8px; border: 1px solid #eee; }
         .map-btns { display: flex; gap: 10px; justify-content: center; }
         .btn-map { padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #555; font-size: 0.85rem; flex: 1; max-width: 130px; }
@@ -107,7 +108,7 @@
     <header>
         <p class="date-top">2026 . 05 . 16</p>
         <h1 class="names">박진성 & 정수현</h1>
-        <p class="intro-p">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
+        <p style="line-height:2; color:#666; font-size:0.95rem;">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
     </header>
 
     <div class="main-poster reveal">
@@ -129,38 +130,26 @@
     </div>
 
     <div class="section reveal" style="background: #fffaf7;">
-        <h3>RSVP</h3>
+        <h3>참석 여부</h3>
         <p style="font-size: 0.9rem; color: #888; margin-bottom: 30px;">축복의 자리에 함께해주실 분들은<br>참석 여부를 알려주세요.</p>
         <div class="rsvp-form">
             <form id="rsvpForm">
                 <label>성함</label>
                 <input type="text" id="rsvp-name" placeholder="성함을 입력해주세요" required>
-
                 <label>참석 여부</label>
                 <div style="margin: 10px 0 20px;">
                     <input type="radio" name="attendance" value="참석" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
                     <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> <label for="att-mid" style="margin-right: 15px;">미정</label>
                     <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
                 </div>
-
                 <div id="additional-rsvp" style="display:none;">
                     <label>참석 인원 (본인 포함)</label>
                     <select id="rsvp-count">
-                        <option value="1명">1명</option>
-                        <option value="2명">2명</option>
-                        <option value="3명">3명</option>
-                        <option value="4명">4명</option>
-                        <option value="5명 이상">5명 이상</option>
+                        <option value="1명">1명</option><option value="2명">2명</option><option value="3명">3명</option><option value="4명">4명</option><option value="5명 이상">5명 이상</option>
                     </select>
-
                     <label>식사 여부</label>
-                    <select id="rsvp-meal">
-                        <option value="식사 예정">식사 예정</option>
-                        <option value="식사 안함">식사 안함</option>
-                        <option value="미정">미정</option>
-                    </select>
+                    <select id="rsvp-meal"><option value="식사 예정">식사 예정</option><option value="식사 안함">식사 안함</option><option value="미정">미정</option></select>
                 </div>
-
                 <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
             </form>
         </div>
@@ -188,13 +177,6 @@
 
     <hr>
 
-    <div class="section reveal">
-        <h3>GUESTBOOK</h3>
-        <div id="giscus-area">
-            <p style="font-size: 0.85rem; color: #aaa;">축복의 메시지를 남겨주세요.</p>
-            </div>
-    </div>
-
     <div class="section reveal" style="background: #fdfaf7;">
         <h3>마음 전하실 곳</h3>
         <div class="account-box">
@@ -211,6 +193,14 @@
         </div>
     </div>
 
+    <div class="section reveal">
+        <h3>GUESTBOOK</h3>
+        <div id="giscus-area">
+            <p style="font-size: 0.85rem; color: #aaa; margin-bottom:20px;">축복의 메시지를 남겨주세요.</p>
+            <script src="https://giscus.app/client.js" data-repo="danhopark/wedding-invitation" data-mapping="pathname" data-theme="light" data-lang="ko" crossorigin="anonymous" async></script>
+        </div>
+    </div>
+
     <footer><p>© 2026 Jinsung & Suhyeon</p></footer>
 </div>
 
@@ -218,7 +208,6 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
 
 <script>
-    /* 1. 스크롤 애니메이션 */
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
@@ -229,7 +218,6 @@
     }
     window.addEventListener("scroll", reveal); window.addEventListener("load", reveal);
 
-    /* 2. 갤러리 팝업 & 스와이프 */
     var modalSwiper;
     window.addEventListener('load', function() {
         const modalWrapper = document.getElementById('modalWrapper');
@@ -246,28 +234,27 @@
         document.body.style.overflow = "hidden";
         if (modalSwiper) modalSwiper.slideTo(index, 0);
     }
-    function closeModal() {
-        document.getElementById("imageModal").style.display = "none";
-        document.body.style.overflow = "auto";
-    }
+    function closeModal() { document.getElementById("imageModal").style.display = "none"; document.body.style.overflow = "auto"; }
 
-    /* 3. RSVP 조건부 로직 & 전송 */
-    function toggleRSVP(show) {
-        document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none';
-    }
+    function toggleRSVP(show) { document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none'; }
+    
+    /* [중요] RSVP 전송 오류 해결 가이드 */
     function submitRSVP() {
-        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; // [수정필수]
+        // 1. 주소 끝이 /formResponse 인지 꼭 확인하세요!
+        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/preview/formResponse"; 
+        
         const name = document.getElementById("rsvp-name").value;
         const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
         
         if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
 
         const formData = new FormData();
-        formData.append("entry.424447328", name); // [수정필수]
-        formData.append("entry.810964646", attendance); // [수정필수]
+        // 2. [검사]로 찾은 entry.xxxx 숫자가 정확한지 다시 확인하세요!
+        formData.append("entry.424447328", name); 
+        formData.append("entry.810964646", attendance); 
         if (attendance !== "불참") {
-            formData.append("entry.402763776", document.getElementById("rsvp-count").value); // [수정필수]
-            formData.append("entry.1519935907", document.getElementById("rsvp-meal").value); // [수정필수]
+            formData.append("entry.402763776", document.getElementById("rsvp-count").value);
+            formData.append("entry.1519935907", document.getElementById("rsvp-meal").value);
         }
 
         fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
@@ -277,7 +264,6 @@
         }).catch(() => alert("전송 오류가 발생했습니다."));
     }
 
-    /* 4. 달력 및 D-day */
     function initCalendar() {
         const weddingDate = new Date("2026-05-16"); const today = new Date();
         today.setHours(0,0,0,0); weddingDate.setHours(0,0,0,0);
@@ -286,7 +272,7 @@
         document.getElementById('d-day-count').innerText = dDay > 0 ? "D-" + dDay : (dDay === 0 ? "D-Day" : "D+" + Math.abs(dDay));
         const area = document.getElementById('calendar-area');
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
-        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; // 5월 시작 공백
+        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
         for (let d = 1; d <= 31; d++) {
             let cls = 'day'; if (d === 16) cls += ' d-day-circle'; else if ((d + 5) % 7 === 1) cls += ' sun';
             html += `<div class="${cls}">${d}</div>`;
@@ -295,7 +281,6 @@
     }
     initCalendar();
 
-    /* 5. 지도, 음악, 계좌 */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
     new kakao.maps.Marker({ position: hallLoc }).setMap(map);
@@ -316,8 +301,6 @@
     }
     function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
 </script>
-
-<script src="https://giscus.app/client.js" data-repo="danhopark/wedding-invitation" data-mapping="pathname" data-theme="light" data-lang="ko" crossorigin="anonymous" async></script>
 
 </body>
 </html>
