@@ -34,32 +34,33 @@
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
-        /* [수정] 갤러리 중앙 정렬 강화 */
+        /* [갤러리 중앙 정렬] */
         .gallery-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
             gap: 15px; 
             padding: 0 15px;
-            justify-items: center; /* 내부 아이템 중앙 정렬 */
+            justify-items: center;
             align-items: center;
         }
-        .heart-box { aspect-ratio: 1 / 1; width: 100%; max-width: 120px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
+        .heart-box { aspect-ratio: 1 / 1; width: 100%; max-width: 130px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
         .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); pointer-events: none; }
 
-        /* 팝업 모달 */
-        #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); }
-        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2002; }
+        /* [팝업 모달 중앙 정렬 보정] */
+        #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.98); }
+        .close-btn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2002; }
         .modalSwiper { width: 100%; height: 100%; }
-        .modalSwiper .swiper-slide img { max-width: 100%; max-height: 90%; object-fit: contain; pointer-events: none; }
+        .modalSwiper .swiper-slide { display: flex !important; align-items: center !important; justify-content: center !important; }
+        .modalSwiper .swiper-slide img { max-width: 100%; max-height: 85vh; object-fit: contain; pointer-events: none; user-select: none; }
         .swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.7); transform: scale(0.6); }
 
-        /* RSVP 폼 */
+        /* 참석 여부 폼 */
         .rsvp-form { text-align: left; max-width: 350px; margin: 0 auto; background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .btn-submit { width: 100%; padding: 16px; background: #8a7b6a; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
         .rsvp-form label { font-size: 0.85rem; color: #8a7b6a; font-weight: bold; }
         .rsvp-form input[type="text"], .rsvp-form select { width: 100%; padding: 12px; margin: 8px 0 18px; border: 1px solid #eee; border-radius: 6px; box-sizing: border-box; }
 
-        /* 달력 & 지도 */
+        /* 달력 & D-day */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 30px 15px; border-radius: 15px; }
         .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
@@ -68,10 +69,12 @@
         .sun { color: #e74c3c; }
         .d-day-circle { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
+        /* 지도 */
         #map { width: 100%; height: 300px; margin: 25px 0; border-radius: 8px; border: 1px solid #eee; }
         .map-btns { display: flex; gap: 10px; justify-content: center; }
         .btn-map { padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #555; font-size: 0.85rem; flex: 1; max-width: 130px; }
         
+        /* 계좌번호 */
         .account-box { margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
         .toggle-btn { width: 100%; padding: 18px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.95rem; color: #666; }
         .account-details { display: none; padding: 25px; background: #fafafa; text-align: left; font-size: 0.9rem; line-height: 2.2; border-top: 1px solid #eee; }
@@ -138,9 +141,9 @@
                 <input type="text" id="rsvp-name" placeholder="성함을 입력해주세요" required>
                 <label>참석 여부</label>
                 <div style="margin: 10px 0 20px;">
-                    <input type="radio" name="attendance" value="참석" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
+                    <input type="radio" name="attendance" value="O" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
                     <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> <label for="att-mid" style="margin-right: 15px;">미정</label>
-                    <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
+                    <input type="radio" name="attendance" value="X" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
                 </div>
                 <div id="additional-rsvp" style="display:none;">
                     <label>참석 인원 (본인 포함)</label>
@@ -148,7 +151,10 @@
                         <option value="1명">1명</option><option value="2명">2명</option><option value="3명">3명</option><option value="4명">4명</option><option value="5명 이상">5명 이상</option>
                     </select>
                     <label>식사 여부</label>
-                    <select id="rsvp-meal"><option value="식사 예정">식사 예정</option><option value="식사 안함">식사 안함</option><option value="미정">미정</option></select>
+                    <select id="rsvp-meal">
+                        <option value="O">식사 예정</option>
+                        <option value="X">식사 안함</option>
+                    </select>
                 </div>
                 <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
             </form>
@@ -227,7 +233,12 @@
             const newImg = document.createElement('img'); newImg.src = img.src;
             slide.appendChild(newImg); modalWrapper.appendChild(slide);
         });
-        modalSwiper = new Swiper(".modalSwiper", { spaceBetween: 20, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
+        modalSwiper = new Swiper(".modalSwiper", { 
+            spaceBetween: 20, 
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            observer: true, 
+            observeParents: true 
+        });
     });
     function openModal(index) {
         document.getElementById("imageModal").style.display = "block";
@@ -238,23 +249,21 @@
 
     function toggleRSVP(show) { document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none'; }
     
-    /* [중요] RSVP 전송 오류 해결 가이드 */
+    /* [RSVP 전송 로직] */
     function submitRSVP() {
-        // 1. 주소 끝이 /formResponse 인지 꼭 확인하세요!
         const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
-        
         const name = document.getElementById("rsvp-name").value;
         const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
         
         if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
 
         const formData = new FormData();
-        // 2. [검사]로 찾은 entry.xxxx 숫자가 정확한지 다시 확인하세요!
-        formData.append("entry.29244752", name); 
-        formData.append("entry.1798204085", attendance); 
-        if (attendance !== "불참") {
-            formData.append("entry.1424019092", document.getElementById("rsvp-count").value);
-            formData.append("entry.515197960", document.getElementById("rsvp-meal").value);
+        formData.append("entry.29244752", name);             // 성함
+        formData.append("entry.1798204085", attendance);     // 참석 여부 (O/X/미정)
+        
+        if (attendance !== "X") {
+            formData.append("entry.1424019092", document.getElementById("rsvp-count").value); // 인원
+            formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   // 식사 (O/X)
         }
 
         fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
@@ -301,6 +310,5 @@
     }
     function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
 </script>
-
 </body>
 </html>
