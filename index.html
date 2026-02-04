@@ -15,55 +15,68 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
     <style>
-        /* --- 공통 스타일 --- */
+        /* --- 공통 스타일 & 애니메이션 --- */
         body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f9f9f9; color: #333; touch-action: pan-y; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .wrapper { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); position: relative; }
-        .section { padding: 60px 20px; text-align: center; }
+        .section { padding: 80px 20px; text-align: center; }
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
-        hr { border:none; border-top:1px solid #eee; margin:40px 20px; }
+        hr { border:none; border-top:1px solid #eee; margin:0 20px; }
 
+        /* 스크롤 시 부드럽게 나타나는 효과 */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
-        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        /* 배경음악 버튼 */
+        .music-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.8); border-radius: 50%; width: 40px; height: 40px; border: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        header { padding: 100px 20px 60px; background: #fffaf7; }
-        .date-top { font-size: 0.95rem; color: #999; letter-spacing: 4px; margin-bottom: 15px; }
-        .names { font-size: 1.9rem; margin: 20px 0; font-weight: 300; letter-spacing: 2px; }
+        /* 1. 상단 텍스트 헤더 */
+        header { padding: 120px 20px 80px; background: #fffaf7; text-align: center; }
+        .date-top { font-size: 1rem; color: #999; letter-spacing: 5px; margin-bottom: 20px; }
+        .names { font-size: 2rem; margin: 25px 0; font-weight: 300; letter-spacing: 3px; }
+        .intro-p { line-height: 2; color: #666; font-size: 0.95rem; }
 
+        /* 2. 메인 포스터 (스크롤 효과) */
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
+        /* 3. 하트 그리드 갤러리 */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px; }
         .heart-box { aspect-ratio: 1 / 1; width: 100%; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
         .heart-box img { width: 100%; height: 100%; object-fit: cover; clip-path: url(#heartClip); pointer-events: none; }
 
-        /* --- 이미지 팝업 모달 --- */
+        /* 이미지 팝업 모달 (스와이프 + 줌 차단) */
         #imageModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); }
-        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: 300; cursor: pointer; z-index: 2002; line-height: 1; }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2002; }
         .modalSwiper { width: 100%; height: 100%; }
-        .modalSwiper .swiper-slide { display: flex; align-items: center; justify-content: center; }
-        .modalSwiper .swiper-slide img { max-width: 100%; max-height: 90%; object-fit: contain; pointer-events: none; user-select: none; }
-        /* 화살표 버튼 커스텀 */
+        .modalSwiper .swiper-slide img { max-width: 100%; max-height: 90%; object-fit: contain; pointer-events: none; }
         .swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.7); transform: scale(0.6); }
 
-        .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 25px 15px; border-radius: 15px; }
-        .calendar-header { font-size: 1.1rem; margin-bottom: 20px; color: #8a7b6a; font-weight: bold; }
-        .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px; }
+        /* 4. RSVP (참석 여부 직접 입력) */
+        .rsvp-form { text-align: left; max-width: 350px; margin: 0 auto; background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .rsvp-form label { font-size: 0.85rem; color: #8a7b6a; font-weight: bold; }
+        .rsvp-form input[type="text"], .rsvp-form select { width: 100%; padding: 12px; margin: 8px 0 18px; border: 1px solid #eee; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem; }
+        .btn-submit { width: 100%; padding: 16px; background: #8a7b6a; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+
+        /* 5. 달력 & D-day */
+        .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 30px 15px; border-radius: 15px; }
+        .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
-        .weekday { font-weight: bold; color: #bbb; padding-bottom: 10px; }
-        .day { padding: 8px 0; }
+        .weekday { font-weight: bold; color: #bbb; padding-bottom: 12px; }
+        .day { padding: 10px 0; }
         .sun { color: #e74c3c; }
         .d-day-circle { background-color: #8a7b6a; color: #fff; border-radius: 50%; font-weight: bold; }
 
-        #map { width: 100%; height: 300px; margin: 20px 0; border-radius: 8px; border:1px solid #eee; }
-        .map-btns { display: flex; gap: 8px; justify-content: center; }
-        .btn-map { padding: 10px 15px; background: #fff; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #555; font-size: 0.8rem; flex: 1; max-width: 120px; }
-        .account-box { margin-bottom: 12px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
-        .toggle-btn { width: 100%; padding: 15px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; }
-        .account-details { display: none; padding: 20px; background: #fafafa; text-align: left; font-size: 0.85rem; line-height: 2; border-top: 1px solid #eee; }
-        .copy-btn { padding: 3px 8px; font-size: 0.7rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; color:#555; }
-        footer { padding: 60px 20px; font-size: 0.8rem; color: #bbb; background: #fdfaf7; text-align: center; }
+        /* 6. 지도 및 계좌번호 */
+        #map { width: 100%; height: 300px; margin: 25px 0; border-radius: 8px; border: 1px solid #eee; }
+        .map-btns { display: flex; gap: 10px; justify-content: center; }
+        .btn-map { padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #555; font-size: 0.85rem; flex: 1; max-width: 130px; }
+        
+        .account-box { margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
+        .toggle-btn { width: 100%; padding: 18px; background: #fdfdfd; border: none; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.95rem; color: #666; }
+        .account-details { display: none; padding: 25px; background: #fafafa; text-align: left; font-size: 0.9rem; line-height: 2.2; border-top: 1px solid #eee; }
+        .copy-btn { padding: 4px 10px; font-size: 0.75rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px; color: #666; }
+
+        footer { padding: 80px 20px; font-size: 0.85rem; color: #bbb; background: #fdfaf7; text-align: center; }
     </style>
 </head>
 <body>
@@ -91,10 +104,10 @@
         <audio id="bgm" src="music/bgm.mp3" loop autoplay playsinline></audio>
     </div>
 
-    <header class="section">
+    <header>
         <p class="date-top">2026 . 05 . 16</p>
         <h1 class="names">박진성 & 정수현</h1>
-        <p style="line-height:1.8; color:#666; font-size: 0.95rem;">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
+        <p class="intro-p">저희 두 사람, 결혼합니다.<br>따뜻한 봄날, 축복의 자리에 초대합니다.</p>
     </header>
 
     <div class="main-poster reveal">
@@ -112,6 +125,44 @@
             <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
             <div class="heart-box" onclick="openModal(4)"><img src="images/photo1.jpg"></div>
             <div class="heart-box" onclick="openModal(5)"><img src="images/photo2.jpg"></div>
+        </div>
+    </div>
+
+    <div class="section reveal" style="background: #fffaf7;">
+        <h3>RSVP</h3>
+        <p style="font-size: 0.9rem; color: #888; margin-bottom: 30px;">축복의 자리에 함께해주실 분들은<br>참석 여부를 알려주세요.</p>
+        <div class="rsvp-form">
+            <form id="rsvpForm">
+                <label>성함</label>
+                <input type="text" id="rsvp-name" placeholder="성함을 입력해주세요" required>
+
+                <label>참석 여부</label>
+                <div style="margin: 10px 0 20px;">
+                    <input type="radio" name="attendance" value="참석" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
+                    <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> <label for="att-mid" style="margin-right: 15px;">미정</label>
+                    <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
+                </div>
+
+                <div id="additional-rsvp" style="display:none;">
+                    <label>참석 인원 (본인 포함)</label>
+                    <select id="rsvp-count">
+                        <option value="1명">1명</option>
+                        <option value="2명">2명</option>
+                        <option value="3명">3명</option>
+                        <option value="4명">4명</option>
+                        <option value="5명 이상">5명 이상</option>
+                    </select>
+
+                    <label>식사 여부</label>
+                    <select id="rsvp-meal">
+                        <option value="식사 예정">식사 예정</option>
+                        <option value="식사 안함">식사 안함</option>
+                        <option value="미정">미정</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
+            </form>
         </div>
     </div>
 
@@ -135,6 +186,15 @@
         </div>
     </div>
 
+    <hr>
+
+    <div class="section reveal">
+        <h3>GUESTBOOK</h3>
+        <div id="giscus-area">
+            <p style="font-size: 0.85rem; color: #aaa;">축복의 메시지를 남겨주세요.</p>
+            </div>
+    </div>
+
     <div class="section reveal" style="background: #fdfaf7;">
         <h3>마음 전하실 곳</h3>
         <div class="account-box">
@@ -156,7 +216,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
+
 <script>
+    /* 1. 스크롤 애니메이션 */
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
@@ -167,26 +229,18 @@
     }
     window.addEventListener("scroll", reveal); window.addEventListener("load", reveal);
 
-    var modalSwiper; 
+    /* 2. 갤러리 팝업 & 스와이프 */
+    var modalSwiper;
     window.addEventListener('load', function() {
         const modalWrapper = document.getElementById('modalWrapper');
         const originalImages = document.querySelectorAll('#originalGallery .heart-box img');
-        
         originalImages.forEach(img => {
-            const slide = document.createElement('div');
-            slide.className = 'swiper-slide';
-            const newImg = document.createElement('img');
-            newImg.src = img.src;
-            slide.appendChild(newImg);
-            modalWrapper.appendChild(slide);
+            const slide = document.createElement('div'); slide.className = 'swiper-slide';
+            const newImg = document.createElement('img'); newImg.src = img.src;
+            slide.appendChild(newImg); modalWrapper.appendChild(slide);
         });
-
-        modalSwiper = new Swiper(".modalSwiper", {
-            spaceBetween: 20,
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev", }, // 버튼 활성화
-        });
+        modalSwiper = new Swiper(".modalSwiper", { spaceBetween: 20, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
     });
-
     function openModal(index) {
         document.getElementById("imageModal").style.display = "block";
         document.body.style.overflow = "hidden";
@@ -197,16 +251,42 @@
         document.body.style.overflow = "auto";
     }
 
+    /* 3. RSVP 조건부 로직 & 전송 */
+    function toggleRSVP(show) {
+        document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none';
+    }
+    function submitRSVP() {
+        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; // [수정필수]
+        const name = document.getElementById("rsvp-name").value;
+        const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
+        
+        if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
+
+        const formData = new FormData();
+        formData.append("entry.424447328", name); // [수정필수]
+        formData.append("entry.810964646", attendance); // [수정필수]
+        if (attendance !== "불참") {
+            formData.append("entry.402763776", document.getElementById("rsvp-count").value); // [수정필수]
+            formData.append("entry.1519935907", document.getElementById("rsvp-meal").value); // [수정필수]
+        }
+
+        fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
+            alert("소중한 정보가 전달되었습니다. 감사합니다!");
+            document.getElementById("rsvpForm").reset();
+            toggleRSVP(false);
+        }).catch(() => alert("전송 오류가 발생했습니다."));
+    }
+
+    /* 4. 달력 및 D-day */
     function initCalendar() {
         const weddingDate = new Date("2026-05-16"); const today = new Date();
         today.setHours(0,0,0,0); weddingDate.setHours(0,0,0,0);
         const diff = weddingDate - today;
         const dDay = Math.ceil(diff / (1000 * 60 * 60 * 24));
         document.getElementById('d-day-count').innerText = dDay > 0 ? "D-" + dDay : (dDay === 0 ? "D-Day" : "D+" + Math.abs(dDay));
-
         const area = document.getElementById('calendar-area');
         let html = '<div class="weekday sun">일</div><div class="weekday">월</div><div class="weekday">화</div><div class="weekday">수</div><div class="weekday">목</div><div class="weekday">금</div><div class="weekday">토</div>';
-        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; 
+        for (let i = 0; i < 5; i++) html += '<div class="day"></div>'; // 5월 시작 공백
         for (let d = 1; d <= 31; d++) {
             let cls = 'day'; if (d === 16) cls += ' d-day-circle'; else if ((d + 5) % 7 === 1) cls += ' sun';
             html += `<div class="${cls}">${d}</div>`;
@@ -215,16 +295,14 @@
     }
     initCalendar();
 
+    /* 5. 지도, 음악, 계좌 */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
     new kakao.maps.Marker({ position: hallLoc }).setMap(map);
     map.setDraggable(false); map.setZoomable(false);
 
     const bgm = document.getElementById('bgm'); const mIcon = document.getElementById('musicIcon');
-    
-    // [수정] 배경음악 볼륨 설정 (0.0 ~ 1.0)
-    bgm.volume = 0.3; 
-
+    bgm.volume = 0.3;
     window.addEventListener('load', () => {
         bgm.play().then(() => mIcon.innerText = "⏸️").catch(() => {
             const startBgm = () => { bgm.play(); mIcon.innerText = "⏸️"; document.removeEventListener('click', startBgm); };
@@ -238,5 +316,8 @@
     }
     function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
 </script>
+
+<script src="https://giscus.app/client.js" data-repo="danhopark/wedding-invitation" data-mapping="pathname" data-theme="light" data-lang="ko" crossorigin="anonymous" async></script>
+
 </body>
 </html>
