@@ -141,17 +141,21 @@
                     <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
                 </div>
 
-                <div id="additional-rsvp" style="display:none;">
-                    <label>참석 인원 (본인 포함)</label>
-                    <select id="rsvp-count">
-                        <option value="1명">1명</option><option value="2명">2명</option><option value="3명">3명</option><option value="4명">4명</option><option value="5명 이상">5명 이상</option>
-                    </select>
-                    
-                    <label>식사 여부</label>
-                    <select id="rsvp-meal">
-                        <option value="O">식사 예정</option>
-                        <option value="X">식사 안함</option>
-                    </select>
+               <div id="additional-rsvp" style="display:none;">
+    <label>참석 인원 (본인 포함)</label>
+    <select id="rsvp-count">
+        <option value="1">1명</option>
+        <option value="2">2명</option>
+        <option value="3">3명</option>
+        <option value="4">4명</option>
+        <option value="5">5명 이상</option>
+    </select>
+    
+    <label>식사 여부</label>
+    <select id="rsvp-meal">
+        <option value="O">식사 예정</option>
+        <option value="X">식사 안함</option>
+    </select>
                 </div>
                 
                 <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
@@ -252,28 +256,29 @@
         document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none'; 
     }
     
-    function submitRSVP() {
-        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
-        const name = document.getElementById("rsvp-name").value;
-        const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
-        
-        if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
+  function submitRSVP() {
+    const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
+    const name = document.getElementById("rsvp-name").value;
+    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
+    
+    if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
 
-        const formData = new FormData();
-        // 앞서 찾은 정확한 entry 번호들입니다.
-        formData.append("entry.29244752", name);             
-        formData.append("entry.1798204085", attendance);     
-        if (attendance !== "불참") {
-            formData.append("entry.1424019092", document.getElementById("rsvp-count").value); 
-            formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   
-        }
+    const formData = new FormData();
+    formData.append("entry.29244752", name);             // 성함
+    formData.append("entry.1798204085", attendance);     // "참석", "불참", "미정"
 
-        fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
-            alert("소중한 정보가 전달되었습니다. 감사합니다!");
-            document.getElementById("rsvpForm").reset();
-            toggleRSVP(false);
-        }).catch(() => alert("전송 오류가 발생했습니다."));
+    // '불참' 글자와 정확히 대조하여 나머지 데이터 전송 여부 결정
+    if (attendance !== "불참") {
+        formData.append("entry.1424019092", document.getElementById("rsvp-count").value); // 숫자만
+        formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   // "O" 또는 "X"
     }
+
+    fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
+        alert("소중한 정보가 전달되었습니다. 감사합니다!");
+        document.getElementById("rsvpForm").reset();
+        toggleRSVP(false);
+    }).catch(() => alert("전송 오류가 발생했습니다."));
+}
 
     /* 4. 달력 복구 */
     function initCalendar() {
