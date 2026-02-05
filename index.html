@@ -140,21 +140,22 @@
                 <label>성함</label>
                 <input type="text" id="rsvp-name" placeholder="성함을 입력해주세요" required>
                 <label>참석 여부</label>
-                <div style="margin: 10px 0 20px;">
-                    <input type="radio" name="attendance" value="O" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
-                    <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> <label for="att-mid" style="margin-right: 15px;">미정</label>
-                    <input type="radio" name="attendance" value="X" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
-                </div>
-                <div id="additional-rsvp" style="display:none;">
-                    <label>참석 인원 (본인 포함)</label>
-                    <select id="rsvp-count">
-                        <option value="1명">1명</option><option value="2명">2명</option><option value="3명">3명</option><option value="4명">4명</option><option value="5명 이상">5명 이상</option>
-                    </select>
-                    <label>식사 여부</label>
-                    <select id="rsvp-meal">
-                        <option value="O">식사 예정</option>
-                        <option value="X">식사 안함</option>
-                    </select>
+         <div style="margin: 10px 0 20px;">
+    <input type="radio" name="attendance" value="참석" id="att-yes" onclick="toggleRSVP(true)"> 
+    <label for="att-yes" style="margin-right: 15px;">참석</label>
+
+    <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> 
+    <label for="att-mid" style="margin-right: 15px;">미정</label>
+
+    <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> 
+    <label for="att-no">불참</label>
+</div>
+
+<label>식사 여부</label>
+<select id="rsvp-meal">
+    <option value="O">식사 예정</option>
+    <option value="X">식사 안함</option>
+</select>
                 </div>
                 <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
             </form>
@@ -250,28 +251,41 @@
     function toggleRSVP(show) { document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none'; }
     
     /* [RSVP 전송 로직] */
-    function submitRSVP() {
-        const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
-        const name = document.getElementById("rsvp-name").value;
-        const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
-        
-        if (!name || !attendance) { alert("성함과 참석 여부를 선택해주세요."); return; }
-
-        const formData = new FormData();
-        formData.append("entry.29244752", name);             // 성함
-        formData.append("entry.1798204085", attendance);     // 참석 여부 (O/X/미정)
-        
-        if (attendance !== "X") {
-            formData.append("entry.1424019092", document.getElementById("rsvp-count").value); // 인원
-            formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   // 식사 (O/X)
-        }
-
-        fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
-            alert("소중한 정보가 전달되었습니다. 감사합니다!");
-            document.getElementById("rsvpForm").reset();
-            toggleRSVP(false);
-        }).catch(() => alert("전송 오류가 발생했습니다."));
+   function submitRSVP() {
+    const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse";
+    
+    const name = document.getElementById("rsvp-name").value;
+    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
+    
+    if (!name || !attendance) { 
+        alert("성함과 참석 여부를 선택해주세요."); 
+        return; 
     }
+
+    const formData = new FormData();
+    
+    // 1. 성함과 참석 여부 전송
+    formData.append("entry.29244752", name);             
+    formData.append("entry.1798204085", attendance);     // "참석", "불참", "미정" 중 선택된 값이 날아갑니다.
+    
+    // 2. '불참'이 아닐 때만(참석 또는 미정일 때) 추가 정보 전송
+    if (attendance !== "불참") {
+        formData.append("entry.1424019092", document.getElementById("rsvp-count").value); 
+        formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   // "O" 또는 "X"가 날아갑니다.
+    }
+
+    fetch(formUrl, { 
+        method: "POST", 
+        mode: "no-cors", 
+        body: formData 
+    }).then(() => {
+        alert("소중한 정보가 전달되었습니다. 감사합니다!");
+        document.getElementById("rsvpForm").reset();
+        toggleRSVP(false);
+    }).catch(() => {
+        alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    });
+}
 
     function initCalendar() {
         const weddingDate = new Date("2026-05-16"); const today = new Date();
