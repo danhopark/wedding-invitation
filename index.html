@@ -256,8 +256,10 @@
         document.getElementById('additional-rsvp').style.display = show ? 'block' : 'none'; 
     }
     
-  function submitRSVP() {
-    const formUrl = "https://docs.google.com/forms/d/1sKfqiuWNYaWfiO4WgXGrAeXDIpsIgXdyCT4O0uHeyZ4/formResponse"; 
+ function submitRSVP() {
+    // 1. [체크] 주소 끝이 formResponse 인지 다시 확인!
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf5jUd7mNWI976uVeXp5YBqitXLrtTEyeIf0AUtUH3vE8Hmbg/formResponse";
+    
     const name = document.getElementById("rsvp-name").value;
     const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
     
@@ -265,12 +267,14 @@
 
     const formData = new FormData();
     formData.append("entry.29244752", name);             // 성함
-    formData.append("entry.1798204085", attendance);     // "참석", "불참", "미정"
+    formData.append("entry.1798204085", attendance);     // 참석/불참/미정
 
-    // '불참' 글자와 정확히 대조하여 나머지 데이터 전송 여부 결정
+    // [중요] 불참이 아닐 때만 인원과 식사 정보 전송
     if (attendance !== "불참") {
-        formData.append("entry.1424019092", document.getElementById("rsvp-count").value); // 숫자만
-        formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   // "O" 또는 "X"
+        // 인원 선택지의 value가 "1", "2" 처럼 숫자만 있어야 합니다.
+        formData.append("entry.1424019092", document.getElementById("rsvp-count").value); 
+        // 식사 여부의 value는 "O" 또는 "X" 여야 합니다.
+        formData.append("entry.515197960", document.getElementById("rsvp-meal").value);   
     }
 
     fetch(formUrl, { method: "POST", mode: "no-cors", body: formData }).then(() => {
