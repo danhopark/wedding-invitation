@@ -76,7 +76,10 @@
         .copy-btn { padding: 4px 10px; font-size: 0.75rem; background: #f0f0f0; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px; color: #666; }
 
         footer { padding: 80px 20px; font-size: 0.85rem; color: #bbb; background: #fdfaf7; text-align: center; }
-    </style>
+          /* 방명록 줄바꿈 유지 */
+        #guestbook-list div { white-space: pre-wrap; word-break: break-all; }
+   
+   </style>
 </head>
 <body>
 
@@ -201,15 +204,25 @@
         </div>
     </div>
 
-    <div class="section reveal">
-        <h3>GUESTBOOK</h3>
-        <div id="giscus-area">
-            <p style="font-size: 0.85rem; color: #aaa; margin-bottom:20px;">축복의 메시지를 남겨주세요.</p>
-            <script src="https://giscus.app/client.js" data-repo="danhopark/wedding-invitation" data-mapping="pathname" data-theme="light" data-lang="ko" crossorigin="anonymous" async></script>
-        </div>
+<div class="section reveal">
+    <h3>GUESTBOOK</h3>
+    
+    <div style="max-width: 400px; margin: 0 auto 40px; background: #fafafa; padding: 20px; border-radius: 12px; text-align: left;">
+        <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">닉네임</label>
+        <input type="text" id="gb-nickname" placeholder="방명록에 표시될 이름" style="width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+        
+        <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">축하 메시지</label>
+        <textarea id="gb-message" placeholder="축하의 한마디를 남겨주세요." style="width: 100%; height: 80px; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; resize: none;"></textarea>
+        
+        <button type="button" onclick="submitGuestbook()" style="width: 100%; padding: 12px; background: #8a7b6a; color: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">메시지 남기기</button>
     </div>
 
-    <footer><p>© 2026 Jinsung & Suhyeon</p></footer>
+    <div id="guestbook-list" style="max-width: 400px; margin: 0 auto; text-align: left;">
+        <p style="text-align: center; color: #ccc;">메시지를 불러오는 중입니다...</p>
+    </div>
+</div>
+
+    <footer><p>© 2026 Jinseong & Suhyun</p></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -302,6 +315,8 @@
     }
     initCalendar();
 
+    
+
     /* 5. 지도 & 음악 & 계좌 */
     var hallLoc = new kakao.maps.LatLng(34.756854435255, 127.66424876634);
     var map = new kakao.maps.Map(document.getElementById('map'), { center: hallLoc, level: 3 });
@@ -322,6 +337,119 @@
         const isShow = d.style.display === "block"; d.style.display = isShow ? "none" : "block"; a.innerText = isShow ? "▼" : "▲";
     }
     function copyAccount(num) { navigator.clipboard.writeText(num).then(() => alert("계좌번호가 복사되었습니다.")); }
+
+/* 6. 구글 시트 방명록 연동 */
+const G_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfmPPZX_sGo5pQ9JE2pmDPQioTcFBUVMCTHf40BP3Hi3HrUN_zVYOFGqi-BiX3wJu_IdVOCiNCLdXm/pub?output=csv";
+
+async function fetchGuestbook() {
+    try {
+        const response = await fetch(G_SHEET_CSV_URL);
+        const data = await response.text();
+        const rows = data.split("\n").slice(1); 
+        const listContainer = document.getElementById('guestbook-list');
+        listContainer.innerHTML = ''; 
+
+        let hasMessage = false;
+
+        rows.reverse().forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+            const nickname = cols[1]?.replace(/"/g, "").trim();
+            const message = cols[2]?.replace(/"/g, "").trim();
+
+            if (nickname && message) {
+                hasMessage = true;
+                const item = document.createElement('div');
+                item.style.cssText = "background: #fdfaf7; padding: 18px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f0ede9;";
+                item.innerHTML = `
+                    <div style="font-weight: bold; font-size: 0.9rem; color: #8a7b6a; margin-bottom: 8px;">✨ ${nickname}</div>
+                    <div style="font-size: 0.85rem; color: #555; line-height: 1.6; white-space: pre-wrap;">${message}</div>
+                `;
+                listContainer.appendChild(item);
+            }
+        });
+
+        if (!hasMessage) {
+            listContainer.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px 0;">첫 번째 축하 메시지를 남겨주세요!</p>';
+        }
+    } catch (e) {
+        console.error("방명록 로딩 실패", e);
+    }
+}
+
+// 페이지 로드 시 방명록 불러오기 실행
+window.addEventListener('load', fetchGuestbook);
+
+/* 7. 방명록 인페이지 전송 및 불러오기 통합 로직 */
+
+// [확인] 새로 만드신 방명록 전용 구글 폼의 주소로 바꿔주세요! (끝이 formResponse여야 합니다)
+const GB_FORM_URL = "https://docs.google.cohttps://docs.google.com/forms/d/1Rhnk0ETTKMJ3w4b1UmIYtpD3atnZrYP3v5bV34P5Ru4/formResponse"; 
+const GB_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfmPPZX_sGo5pQ9JE2pmDPQioTcFBUVMCTHf40BP3Hi3HrUN_zVYOFGqi-BiX3wJu_IdVOCiNCLdXm/pub?output=csv";
+
+// 방명록 전송 함수
+function submitGuestbook() {
+    const nickname = document.getElementById("gb-nickname").value;
+    const message = document.getElementById("gb-message").value;
+
+    if (!nickname || !message) { 
+        alert("닉네임과 메시지를 모두 입력해 주세요."); 
+        return; 
+    }
+
+    const formData = new FormData();
+    // 방금 찾은 따끈따끈한 번호들입니다!
+    formData.append("entry.1626987351", nickname); // 성함(닉네임)
+    formData.append("entry.1908824385", message);  // 축하 메세지
+
+    fetch(GB_FORM_URL, { method: "POST", mode: "no-cors", body: formData })
+    .then(() => {
+        alert("소중한 축하 메시지가 등록되었습니다!\n(데이터 반영까지 1~2분 정도 소요될 수 있습니다.)");
+        // 입력창 비우기
+        document.getElementById("gb-nickname").value = "";
+        document.getElementById("gb-message").value = "";
+    })
+    .catch(() => alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."));
+}
+
+// 방명록 목록 불러오기 함수 (기존 로직 유지)
+async function fetchGuestbook() {
+    try {
+        const response = await fetch(GB_CSV_URL);
+        const data = await response.text();
+        const rows = data.split("\n").slice(1); 
+        const listContainer = document.getElementById('guestbook-list');
+        listContainer.innerHTML = ''; 
+
+        let hasMessage = false;
+
+        rows.reverse().forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+            const name = cols[1]?.replace(/"/g, "").trim();
+            const msg = cols[2]?.replace(/"/g, "").trim();
+
+            if (name && msg) {
+                hasMessage = true;
+                const item = document.createElement('div');
+                item.style.cssText = "background: #fdfaf7; padding: 18px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f0ede9;";
+                item.innerHTML = `
+                    <div style="font-weight: bold; font-size: 0.9rem; color: #8a7b6a; margin-bottom: 8px;">✨ ${name}</div>
+                    <div style="font-size: 0.85rem; color: #555; line-height: 1.6; white-space: pre-wrap;">${msg}</div>
+                `;
+                listContainer.appendChild(item);
+            }
+        });
+
+        if (!hasMessage) {
+            listContainer.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px 0;">첫 번째 축하 메시지를 남겨주세요!</p>';
+        }
+    } catch (e) {
+        console.error("방명록 로딩 실패", e);
+    }
+}
+
+window.addEventListener('load', fetchGuestbook);
+
+
+
 </script>
 </body>
 </html>
