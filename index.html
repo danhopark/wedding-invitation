@@ -123,28 +123,34 @@
     </div>
 
     <hr>
+<div class="section reveal">
+    <h3>GALLERY</h3>
+    <div class="gallery-grid" id="originalGallery">
+        <div class="heart-box" onclick="openModal(0)"><img src="images/photo1.jpg"></div>
+        <div class="heart-box" onclick="openModal(1)"><img src="images/photo2.jpg"></div>
+        <div class="heart-box" onclick="openModal(2)"><img src="images/photo3.jpg"></div>
+        <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
+        <div class="heart-box" onclick="openModal(4)"><img src="images/photo5.jpg"></div>
+        <div class="heart-box" onclick="openModal(5)"><img src="images/photo6.jpg"></div>
+        <div class="heart-box" onclick="openModal(6)"><img src="images/photo7.jpg"></div>
+        <div class="heart-box" onclick="openModal(7)"><img src="images/photo8.jpg"></div>
+        <div class="heart-box" onclick="openModal(8)"><img src="images/photo9.jpg"></div>
 
-    <div class="section reveal">
-        <h3>GALLERY</h3>
-        <div class="gallery-grid" id="originalGallery">
-            <div class="heart-box" onclick="openModal(0)"><img src="images/photo1.jpg"></div>
-            <div class="heart-box" onclick="openModal(1)"><img src="images/photo2.jpg"></div>
-            <div class="heart-box" onclick="openModal(2)"><img src="images/photo3.jpg"></div>
-            <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
-            <div class="heart-box" onclick="openModal(4)"><img src="images/photo1.jpg"></div>
-            <div class="heart-box" onclick="openModal(5)"><img src="images/photo2.jpg"></div>
-            <div class="heart-box" onclick="openModal(6)"><img src="images/photo2.jpg"></div>
-            <div class="heart-box" onclick="openModal(7)"><img src="images/photo2.jpg"></div>
-            <div class="heart-box" onclick="openModal(8)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(9)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(10)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(11)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(12)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(13)"><img src="images/photo2.jpg"></div>
-			<div class="heart-box" onclick="openModal(14)"><img src="images/photo2.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(9)" style="display: none;"><img src="images/photo10.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(10)" style="display: none;"><img src="images/photo11.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(11)" style="display: none;"><img src="images/photo12.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(12)" style="display: none;"><img src="images/photo13.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(13)" style="display: none;"><img src="images/photo14.jpg"></div>
+        <div class="heart-box more-photo" onclick="openModal(14)" style="display: none;"><img src="images/photo15.jpg"></div>
+    </div>
 
-                        
-        </div>
+    <button id="gallery-toggle-btn" onclick="toggleGallery()" style="margin-top: 30px; padding: 10px 20px; background: none; border: 1px solid #8a7b6a; color: #8a7b6a; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">
+        사진 더 보기 ∨
+    </button>
+</div>
+
+
+
     </div>
 
     <div class="section reveal" style="background: #fffaf7;">
@@ -470,6 +476,28 @@ async function fetchGuestbook() {
 
 window.addEventListener('load', fetchGuestbook);
 
+function toggleGallery() {
+    const morePhotos = document.querySelectorAll('.more-photo');
+    const btn = document.getElementById('gallery-toggle-btn');
+    const isHidden = morePhotos[0].style.display === 'none';
+
+    if (isHidden) {
+        // 사진 펼치기
+        morePhotos.forEach(photo => {
+            photo.style.display = 'block';
+        });
+        btn.innerText = '사진 접기 ∧';
+    } else {
+        // 사진 접기
+        morePhotos.forEach(photo => {
+            photo.style.display = 'none';
+        });
+        btn.innerText = '사진 더 보기 ∨';
+        
+        // 접었을 때 갤러리 위치로 스크롤 이동 (선택 사항)
+        document.getElementById('originalGallery').scrollIntoView({ behavior: 'smooth' });
+    }
+}
 
 
 </script>
