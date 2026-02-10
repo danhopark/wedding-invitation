@@ -34,6 +34,19 @@
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         hr { border:none; border-top:1px solid #eee; margin:0 20px; }
 
+        ### 🎨 추가 스타일 (CSS에 꼭 넣어주세요)
+
+        "의 아들"과 "의   딸"의 균형을 맞추기 위해 상단 `<style>`에 이 코드를 추가해 주세요.
+
+        ```css
+        .relation-box {
+        display: inline-block;
+        width: 70px; /* 고정 너비를 주면 뒷부분 이름이 딱 정렬됩니다 */
+        text-align: center;
+        font-size: 0.8rem;
+        color: #999;
+        margin: 0 5px;
+        }
         
 
         /* 스크롤 애니메이션 */
@@ -144,8 +157,7 @@
     </div>
 </div>
 
-<div class="wrapper">
-    <div class="music-btn" onclick="toggleMusic()">
+<div class="wrapper"> <div class="music-btn" onclick="toggleMusic()">
         <span id="musicIcon">▶️</span>
         <audio id="bgm" src="music/bgm.mp3" loop autoplay playsinline></audio>
     </div>
@@ -154,29 +166,24 @@
         <p class="date-top">2026 . 05 . 16</p>
         <h1 class="names">박진성 & 정수현</h1>
         <p style="line-height:2; color:#666; font-size:0.95rem;">
-            <br>갑작스레 소나기가 쏟아지던 첫 만남
-            <br>작은 우산 아래 맞닿던 어깨, 어색한 미소
-            <br>그렇게 사랑을 키워온 저희가
-            <br>이제는 하나님 안에서 하나가 되고자 합니다.
-            <br>
-            <br>이 신실한 약속의 자리에 동행하시어
-            <br>함께 축복해주시길 소망합니다.
-
-        <div class="parents-section reveal">
-        <div class="family-line">
-        <span class="parents-names">박병재 · 강은주</span>
-        <span class="relation">의 아들</span>
-        <span class="bride-groom-name">진성</span>
-    </div>
-    <div class="family-line">
-        <span class="parents-names">정병권 · 황은순</span>
-        <span class="relation">의&nbsp;&nbsp;&nbsp;&nbsp;딸</span>
-        <span class="bride-groom-name">수현</span>
-    </div>
-        </p>
-
-     
-</div>
+            갑작스레 소나기가 쏟아지던 첫 만남<br>
+            작은 우산 아래 맞닿던 어깨, 어색한 미소<br>
+            그렇게 사랑을 키워온 저희가<br>
+            이제는 하나님 안에서 하나가 되고자 합니다.<br><br>
+            이 신실한 약속의 자리에 동행하시어<br>
+            함께 축복해주시길 소망합니다.
+        </p> <div class="parents-section reveal">
+            <div class="family-line">
+                <span class="parents-names">박병재 · 강은주</span>
+                <span class="relation-box">의 아들</span>
+                <span class="bride-groom-name">진성</span>
+            </div>
+            <div class="family-line">
+                <span class="parents-names">정병권 · 황은순</span>
+                <span class="relation-box" style="letter-spacing: 12px; padding-left: 12px;">의 딸</span>
+                <span class="bride-groom-name">수현</span>
+            </div>
+        </div>
     </header>
 
     <div class="main-poster reveal">
@@ -184,39 +191,35 @@
     </div>
 
     <hr>
-<div class="section reveal">
-    <h3>GALLERY</h3>
-    <div class="gallery-grid" id="originalGallery">
-        <div class="heart-box" onclick="openModal(0)"><img src="images/photo1.jpg"></div>
-        <div class="heart-box" onclick="openModal(1)"><img src="images/photo2.jpg"></div>
-        <div class="heart-box" onclick="openModal(2)"><img src="images/photo3.jpg"></div>
-        <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
-        <div class="heart-box" onclick="openModal(4)"><img src="images/photo5.jpg"></div>
-        <div class="heart-box" onclick="openModal(5)"><img src="images/photo6.jpg"></div>
-        <div class="heart-box" onclick="openModal(6)"><img src="images/photo7.jpg"></div>
-        <div class="heart-box" onclick="openModal(7)"><img src="images/photo8.jpg"></div>
-        <div class="heart-box" onclick="openModal(8)"><img src="images/photo9.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(9)" style="display: none;"><img src="images/photo10.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(10)" style="display: none;"><img src="images/photo11.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(11)" style="display: none;"><img src="images/photo12.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(12)" style="display: none;"><img src="images/photo13.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(13)" style="display: none;"><img src="images/photo14.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(14)" style="display: none;"><img src="images/photo15.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(15)" style="display: none;"><img src="images/photo16.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(16)" style="display: none;"><img src="images/photo17.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(17)" style="display: none;"><img src="images/photo18.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(18)" style="display: none;"><img src="images/photo19.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(19)" style="display: none;"><img src="images/photo20.jpg"></div>
-        <div class="heart-box more-photo" onclick="openModal(20)" style="display: none;"><img src="images/photo21.jpg"></div>
-    </div>
 
-    <button id="gallery-toggle-btn" onclick="toggleGallery()" style="margin-top: 30px; padding: 10px 20px; background: none; border: 1px solid #8a7b6a; color: #8a7b6a; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">
-        사진 더 보기 ∨
-    </button>
-</div>
-
-
-
+    <div class="section reveal">
+        <h3>GALLERY</h3>
+        <div class="gallery-grid" id="originalGallery">
+            <div class="heart-box" onclick="openModal(0)"><img src="images/photo1.jpg"></div>
+            <div class="heart-box" onclick="openModal(1)"><img src="images/photo2.jpg"></div>
+            <div class="heart-box" onclick="openModal(2)"><img src="images/photo3.jpg"></div>
+            <div class="heart-box" onclick="openModal(3)"><img src="images/photo4.jpg"></div>
+            <div class="heart-box" onclick="openModal(4)"><img src="images/photo5.jpg"></div>
+            <div class="heart-box" onclick="openModal(5)"><img src="images/photo6.jpg"></div>
+            <div class="heart-box" onclick="openModal(6)"><img src="images/photo7.jpg"></div>
+            <div class="heart-box" onclick="openModal(7)"><img src="images/photo8.jpg"></div>
+            <div class="heart-box" onclick="openModal(8)"><img src="images/photo9.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(9)" style="display: none;"><img src="images/photo10.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(10)" style="display: none;"><img src="images/photo11.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(11)" style="display: none;"><img src="images/photo12.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(12)" style="display: none;"><img src="images/photo13.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(13)" style="display: none;"><img src="images/photo14.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(14)" style="display: none;"><img src="images/photo15.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(15)" style="display: none;"><img src="images/photo16.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(16)" style="display: none;"><img src="images/photo17.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(17)" style="display: none;"><img src="images/photo18.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(18)" style="display: none;"><img src="images/photo19.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(19)" style="display: none;"><img src="images/photo20.jpg"></div>
+            <div class="heart-box more-photo" onclick="openModal(20)" style="display: none;"><img src="images/photo21.jpg"></div>
+        </div>
+        <button id="gallery-toggle-btn" onclick="toggleGallery()" style="margin-top: 30px; padding: 10px 20px; background: none; border: 1px solid #8a7b6a; color: #8a7b6a; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">
+            사진 더 보기 ∨
+        </button>
     </div>
 
     <div class="section reveal" style="background: #fffaf7;">
@@ -225,31 +228,20 @@
             <form id="rsvpForm">
                 <label>성함</label>
                 <input type="text" id="rsvp-name" placeholder="성함을 입력해주세요" required>
-                
                 <label>참석 여부</label>
                 <div style="margin: 10px 0 20px;">
                     <input type="radio" name="attendance" value="참석" id="att-yes" onclick="toggleRSVP(true)"> <label for="att-yes" style="margin-right: 15px;">참석</label>
                     <input type="radio" name="attendance" value="미정" id="att-mid" onclick="toggleRSVP(true)"> <label for="att-mid" style="margin-right: 15px;">미정</label>
                     <input type="radio" name="attendance" value="불참" id="att-no" onclick="toggleRSVP(false)"> <label for="att-no">불참</label>
                 </div>
-
-               <div id="additional-rsvp" style="display:none;">
-    <label>참석 인원 (본인 포함)</label>
-    <select id="rsvp-count">
-        <option value="1">1명</option>
-        <option value="2">2명</option>
-        <option value="3">3명</option>
-        <option value="4">4명</option>
-        <option value="5">5명</option>
-    </select>
-    
-    <label>식사 여부</label>
-    <select id="rsvp-meal">
-        <option value="O">식사 예정</option>
-        <option value="X">식사 안함</option>
-    </select>
+                <div id="additional-rsvp" style="display:none;">
+                    <label>참석 인원 (본인 포함)</label>
+                    <select id="rsvp-count">
+                        <option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option><option value="5">5명</option>
+                    </select>
+                    <label>식사 여부</label>
+                    <select id="rsvp-meal"><option value="O">식사 예정</option><option value="X">식사 안함</option></select>
                 </div>
-                
                 <button type="button" class="btn-submit" onclick="submitRSVP()">참석 명단 등록하기</button>
             </form>
         </div>
@@ -283,41 +275,36 @@
             <button class="toggle-btn" onclick="toggleAccount('groom')"><span>신랑측 계좌번호</span> <span id="groom-arrow">▼</span></button>
             <div id="groom-details" class="account-details">
                 <p>신랑 박진성 <br> <strong>국민 123-456-7890</strong> <button class="copy-btn" onclick="copyAccount('123-456-7890')">복사</button></p>
-                <p>신랑 박진성 <br> <strong>국민 123-456-7890</strong> <button class="copy-btn" onclick="copyAccount('123-456-7890')">복사</button></p>
-                <p>신랑 박진성 <br> <strong>국민 123-456-7890</strong> <button class="copy-btn" onclick="copyAccount('123-456-7890')">복사</button></p>
-          
-             </div>
+            </div>
         </div>
         <div class="account-box">
             <button class="toggle-btn" onclick="toggleAccount('bride')"><span>신부측 계좌번호</span> <span id="bride-arrow">▼</span></button>
             <div id="bride-details" class="account-details">
                 <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
-                <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
-                <p>신부 정수현 <br> <strong>우리 111-222-3333</strong> <button class="copy-btn" onclick="copyAccount('111-222-3333')">복사</button></p>
             </div>
         </div>
     </div>
 
-<div class="section reveal">
-    <h3>GUESTBOOK</h3>
-    
-    <div style="max-width: 400px; margin: 0 auto 40px; background: #fafafa; padding: 20px; border-radius: 12px; text-align: left;">
-        <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">닉네임</label>
-        <input type="text" id="gb-nickname" placeholder="방명록에 표시될 이름" style="width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
-        
-        <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">축하 메시지</label>
- <textarea id="gb-message" placeholder="축하의 한마디를 남겨주세요." style="width: 100%; height: 80px; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; resize: none; font-family: inherit;"></textarea>
-        
-        <button type="button" onclick="submitGuestbook()" style="width: 100%; padding: 12px; background: #8a7b6a; color: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">메시지 남기기</button>
+    <div class="section reveal">
+        <h3>GUESTBOOK</h3>
+        <div style="max-width: 400px; margin: 0 auto 40px; background: #fafafa; padding: 20px; border-radius: 12px; text-align: left;">
+            <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">닉네임</label>
+            <input type="text" id="gb-nickname" placeholder="이름" style="width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px;">
+            <label style="font-size: 0.8rem; color: #8a7b6a; font-weight: bold;">축하 메시지</label>
+            <textarea id="gb-message" placeholder="축하의 한마디를 남겨주세요." style="width: 100%; height: 80px; padding: 10px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 5px; resize: none; font-family: inherit;"></textarea>
+            <button type="button" onclick="submitGuestbook()" style="width: 100%; padding: 12px; background: #8a7b6a; color: #fff; border: none; border-radius: 5px; font-weight: bold;">메시지 남기기</button>
+        </div>
+        <div id="guestbook-list" style="max-width: 400px; margin: 0 auto; text-align: left;">
+            <p style="text-align: center; color: #ccc;">메시지를 불러오는 중입니다...</p>
+        </div>
     </div>
-
-    <div id="guestbook-list" style="max-width: 400px; margin: 0 auto; text-align: left;">
-        <p style="text-align: center; color: #ccc;">메시지를 불러오는 중입니다...</p>
-    </div>
-</div>
 
     <footer><p>© 2026 Jinseong & Suhyun</p></footer>
-</div>
+</div> ```
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ebf1ad76dafaaef0163552b448e5e8a"></script>
