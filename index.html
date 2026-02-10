@@ -64,48 +64,55 @@
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
-        /* 부모님 섹션 전체 스타일 */
-       /* 부모님 & 신랑신부 섹션 전체 (명조체 적용) */
-        .parents-section {
-        padding: 20px 0 50px;
-        /* 이 안의 모든 글자를 명조체로 통일합니다 */
-        font-family: 'Nanum Myeongjo', serif !important;
-        line-height: 2.2;
-        }    
-
-        .family-line {
-        font-size: 0.95rem;
-        color: #444;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        }
-
-        /* "의 아들", "의 딸" 영역 정렬 및 간격 */
-        .relation-box {
-        display: inline-block;
-        width: 65px;         /* 상자 너비를 고정해서 뒷부분 이름 위치를 맞춥니다 */
-        text-align: center;
-        font-size: 0.8rem;
-        color: #999;
-        margin: 0 8px;
-}
-
-        /* '의 딸' 사이의 미세한 간격 조절 (너무 멀지 않게) */
-        .spacing-sm {
-        letter-spacing: 4px; /* 기존 12px에서 4px로 대폭 줄였습니다 */
-        padding-left: 4px;
-        }
-
-        .parents-names {
-        letter-spacing: 1px;
-        }
-
-        .bride-groom-name {
-        font-size: 1.05rem;
-        font-weight: bold;
-        color: #222;
-        }
+        /* 1. 부모님 섹션 전용 명조체 설정 (우선순위 강화) */
+            .parents-section {
+                padding: 30px 0 60px;
+                text-align: center;
+            }
+            
+            /* 모든 자식 요소에 명조체를 강제로 입힙니다 */
+            .parents-section, 
+            .parents-section .family-line, 
+            .parents-section span {
+                font-family: 'Nanum Myeongjo', serif !important;
+                line-height: 1.8; /* 위아래 문장 간격을 시원하게 맞춤 */
+            }
+            
+            /* 2. 줄 맞춤의 핵심: '의 아들/딸' 상자 고정 너비 */
+            .family-line {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 12px; /* 상하 문장 간격을 일정하게 고정 */
+                font-size: 0.95rem;
+                color: #444;
+            }
+            
+            .relation-box {
+                display: inline-block;
+                width: 85px;          /* 넉넉한 너비를 주어 이름 정렬 기준선을 만듭니다 */
+                text-align: center;
+                font-size: 0.8rem;
+                color: #999;
+            }
+            
+            /* 3. '의 딸' 간격 벌리기 (의 아들과 시각적 길이 맞춤) */
+            .spacing-daughter {
+                letter-spacing: 12px; /* '의'와 '딸' 사이를 시원하게 벌립니다 */
+                padding-left: 12px;   /* 벌어진 만큼 왼쪽 여백을 주어 정중앙 정렬 */
+            }
+            
+            .parents-names {
+                letter-spacing: 1px;
+            }
+            
+            .bride-groom-name {
+                font-size: 1.05rem;
+                font-weight: bold;
+                color: #222;
+                width: 60px; /* 이름 시작 위치를 고정하기 위한 최소 너비 */
+                text-align: left;
+            }
 
         
         /* 갤러리 (중앙 정렬 복구) */
@@ -177,30 +184,32 @@
         <audio id="bgm" src="music/bgm.mp3" loop autoplay playsinline></audio>
     </div>
 
-    <header>
+      <header>
         <p class="date-top">2026 . 05 . 16</p>
         <h1 class="names">박진성 & 정수현</h1>
-        <p style="line-height:2; color:#666; font-size:0.95rem;">
+        
+        <p style="line-height:2; color:#666; font-size:0.95rem; margin-bottom: 40px;">
             갑작스레 소나기가 쏟아지던 첫 만남<br>
             작은 우산 아래 맞닿던 어깨, 어색한 미소<br>
             그렇게 사랑을 키워온 저희가<br>
             이제는 하나님 안에서 하나가 되고자 합니다.<br><br>
             이 신실한 약속의 자리에 동행하시어<br>
             함께 축복해주시길 소망합니다.
-        </p> <div class="parents-section reveal">
-           <div class="parents-section reveal">
-            <div class="family-line">
-            <span class="parents-names">박병재 · 강은주</span>
-            <span class="relation-box">의 아들</span>
-            <span class="bride-groom-name">진성</span>
-            </div>
+        </p>
     
+        <div class="parents-section reveal">
             <div class="family-line">
-            <span class="parents-names">정병권 · 황은순</span>
-            <span class="relation-box spacing-sm">의 딸</span>
-            <span class="bride-groom-name">수현</span>
+                <span class="parents-names">박병재 · 강은주</span>
+                <span class="relation-box">의 아들</span>
+                <span class="bride-groom-name">진성</span>
+            </div>
+            
+            <div class="family-line">
+                <span class="parents-names">정병권 · 황은순</span>
+                <span class="relation-box spacing-daughter">의 딸</span>
+                <span class="bride-groom-name">수현</span>
+            </div>
         </div>
-     </div>
     </header>
 
     <div class="main-poster reveal">
