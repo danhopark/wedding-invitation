@@ -26,6 +26,7 @@
         .section { padding: 80px 20px; text-align: center; }
         h3 { font-weight: 400; letter-spacing: 2px; color: #8a7b6a; margin-bottom: 30px; font-size: 1.1rem; }
         hr { border:none; border-top:1px solid #eee; margin:0 20px; }
+
         
 
         /* 스크롤 애니메이션 */
@@ -42,6 +43,36 @@
         .main-poster { width: 100%; line-height: 0; }
         .main-poster img { width: 100%; height: auto; display: block; }
 
+        /* 부모님 섹션 전체 스타일 */
+        .parents-section {
+        padding: 30px 0 60px;
+        line-height: 2.5; /* 줄 간격을 넓게 해서 가독성을 높입니다 */
+        }
+
+        .family-line {
+        font-size: 0.95rem;
+        color: #555;
+        /* [포인트] 인사말과 다른 서체(명조체)를 적용합니다 */
+        font-family: 'GyeonggiBatang', 'Nanum Myeongjo', serif; 
+        }
+
+        .parents-names {
+        letter-spacing: 2px;
+        }
+
+        .relation {
+        font-size: 0.8rem;
+        color: #999;
+        margin: 0 10px;
+        }
+
+        .bride-groom-name {
+        font-size: 1.05rem;
+        font-weight: bold;
+        color: #333;
+        }
+
+        
         /* 갤러리 (중앙 정렬 복구) */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 15px; justify-items: center; align-items: center; }
         .heart-box { aspect-ratio: 1 / 1; width: 100%; max-width: 130px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08)); }
@@ -120,9 +151,25 @@
             <br>작은 우산 아래 맞닿던 어깨, 어색한 미소
             <br>그렇게 사랑을 키워온 저희가
             <br>이제는 하나님 안에서 하나가 되고자 합니다.
+            <br>
             <br>이 신실한 약속의 자리에 동행하시어
             <br>함께 축복해주시길 소망합니다.
+
+               <div class="parents-section reveal">
+        <div class="family-line">
+        <span class="parents-names">박OO · 김OO</span>
+        <span class="relation">의 아들</span>
+        <span class="bride-groom-name">진성</span>
+    </div>
+    <div class="family-line">
+        <span class="parents-names">정OO · 이OO</span>
+        <span class="relation">의 딸</span>
+        <span class="bride-groom-name">수현</span>
+    </div>
         </p>
+
+     
+</div>
     </header>
 
     <div class="main-poster reveal">
