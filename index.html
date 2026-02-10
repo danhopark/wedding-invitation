@@ -87,19 +87,20 @@
                 font-size: 0.95rem;
                 color: #444;
             }
-            
-            .relation-box {
+                        
+               .relation-box {
                 display: inline-block;
-                width: 85px;          /* 넉넉한 너비를 주어 이름 정렬 기준선을 만듭니다 */
+                width: 70px;          /* 1. 상자 전체 너비를 85에서 70으로 줄임 */
                 text-align: center;
                 font-size: 0.8rem;
                 color: #999;
+                font-family: 'Nanum Myeongjo', serif !important;
             }
             
-            /* 3. '의 딸' 간격 벌리기 (의 아들과 시각적 길이 맞춤) */
+            /* '의 딸' 전용 세밀한 조정 */
             .spacing-daughter {
-                letter-spacing: 10px; /* '의'와 '딸' 사이를 시원하게 벌립니다 */
-                padding-left: 10px;   /* 벌어진 만큼 왼쪽 여백을 주어 정중앙 정렬 */
+                letter-spacing: 4px !important;  /* 2. 글자 사이 간격을 12에서 4로 대폭 축소 */
+                padding-left: 4px !important;    /* 3. 중앙을 맞추기 위한 여백도 똑같이 축소 */
             }
             
             .parents-names {
