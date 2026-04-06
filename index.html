@@ -138,6 +138,19 @@
         /* 달력 & D-day */
         .calendar-wrap { margin: 0 auto; max-width: 350px; background: #fdfaf7; padding: 30px 15px; border-radius: 15px; }
         .d-day-tag { display: inline-block; background: #8a7b6a; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* 👇 여기에 달력 헤더용 스타일을 추가해 주세요 👇 */
+        .calendar-header { 
+            font-family: 'Nanum Myeongjo', serif !important; /* 감성적인 명조체 적용 */
+            font-size: 1.15rem; 
+            color: #8a7b6a; /* 메인 컬러와 통일 */
+            font-weight: bold; 
+            letter-spacing: 3px; /* 글자 사이 간격 넓히기 */
+            margin-top: 10px; /* 위 D-day 태그와의 간격 */
+            margin-bottom: 25px; /* 아래 달력 요일과의 간격 */
+        }
+        /* 👆 여기까지 👆 */
+        
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; }
         .weekday { font-weight: bold; color: #bbb; padding-bottom: 12px; }
         .day { padding: 10px 0; }
@@ -210,6 +223,11 @@
                 <span class="relation-box spacing-daughter">의 딸</span>
                 <span class="bride-groom-name">수현</span>
             </div>
+            <div style="margin-top: 45px; font-family: 'Nanum Myeongjo', serif; color: #444; line-height: 1.8;">
+            <p style="margin: 0; font-size: 1.05rem; font-weight: bold;">2026년 5월 16일 토요일 오후 1시 00분</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #666;">여수 마리나 웨딩홀 2층</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #666;">(여수시 선소로 25)</p>
+        </div>
         </div>
     </header>
 
